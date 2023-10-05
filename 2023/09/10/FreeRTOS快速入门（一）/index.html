@@ -349,7 +349,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-09-24
+                    2023-09-26
                 </div>
                 
 
@@ -378,10 +378,10 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="为什么要引入FreeRTOS"><a href="#为什么要引入FreeRTOS" class="headerlink" title="为什么要引入FreeRTOS"></a>为什么要引入FreeRTOS</h2><p>设想这样的场景，如果一个人需要打扫卫生，有需要写作业。这两件事的优先级是同样的。在裸机开发中面对这样的场景，如果是按照线性的方式进行程序编写如先写作业在打扫卫生或者是先打扫卫生，可能都会因为前面的任务执行的时间很长而耽误了另外一个任务的执行。（&#x3D;&#x3D;注：在裸机中减少任务运行时间的最好办法是使用状态机&#x3D;&#x3D;）。</p>
+                <h2 id="为什么要引入FreeRTOS"><a href="#为什么要引入FreeRTOS" class="headerlink" title="为什么要引入FreeRTOS"></a>为什么要引入FreeRTOS</h2><p>设想这样的场景，如果一个人需要打扫卫生，有需要写作业。这两件事的优先级是同样的。在裸机开发中面对这样的场景，如果是按照线性的方式进行程序编写如先写作业在打扫卫生或者是先打扫卫生，可能都会因为前面的任务执行的时间很长而耽误了另外一个任务的执行。（<em><strong>注：在裸机中减少任务运行时间的最好办法是使用状态机</strong></em>）。</p>
 <p>那有没有能够“同时”执行这两种任务的方法呢？我们可以规定一个时间片，假设这个时间片是一秒，那么每隔一秒钟就切换一次任务，刚开始执行写作业的时候就开始计时，一秒钟一到就切换成打扫卫生。这样就能两个任务都将兼顾了。这就是FREERTOS的运行机制。在一些需要实时性比较强的系统中都会引入RTOS操作系统。</p>
 <h2 id="FREERTOS结构分析及环境配置"><a href="#FREERTOS结构分析及环境配置" class="headerlink" title="FREERTOS结构分析及环境配置"></a>FREERTOS结构分析及环境配置</h2><p>FreeRTOS的下载地址：<a target="_blank" rel="noopener" href="https://www.freertos.org/zh-cn-cmn-s/a00104.html">https://www.freertos.org/zh-cn-cmn-s/a00104.html</a></p>
-<p>下载的时候&#x3D;&#x3D;不要&#x3D;&#x3D;选择LTS版本的，&#x3D;&#x3D;应该&#x3D;&#x3D;选择带有示例源码的版本。如下：</p>
+<p>下载的时候<strong>不要</strong>选择LTS版本的，<strong>应该</strong>选择带有示例源码的版本。如下：</p>
 <p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202309101636002.png"></p>
 <p>下载完解压后的目录如下：</p>
 <p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202309102225437.png"></p>
@@ -680,18 +680,17 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2023/09/10/FreeRTOS%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/">
+                <a href="/2023/09/24/FreeRTOS%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%EF%BC%88%E4%BA%8C%EF%BC%89/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="FreeRTOS快速入门（一）">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="FreeRTOS快速入门（二）">
                         
-                        <span class="card-title">FreeRTOS快速入门（一）</span>
+                        <span class="card-title">FreeRTOS快速入门（二）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -701,9 +700,9 @@
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-09-10
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-09-24
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -716,7 +715,6 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     

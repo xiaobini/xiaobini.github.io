@@ -1,0 +1,1289 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="FreeRTOS快速入门（二）, 泰勒是个裁缝">
+    <meta name="description" content="同步与互斥同步与互斥主要是指在使用同一个资源的时候，一次只能由一个任务使用，后面的任务如果也想使用这个资源的时候只有等到前面的任务释放了这个资源才能使用。
+常见的同步互斥的实现有：队列、任务通知、信号量、互斥量、事件组。
+队列队列的使用如果">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>FreeRTOS快速入门（二） | 泰勒是个裁缝</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">泰勒是个裁缝</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">泰勒是个裁缝</div>
+        <div class="logo-desc">
+            
+            用心学习，认真记录
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/xiaobini?tab=projects" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/xiaobini?tab=projects" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">FreeRTOS快速入门（二）</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/FreeRTOS%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">
+                                <span class="chip bg-color">FreeRTOS快速入门</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/FreeRTOS%E7%9B%B8%E5%85%B3/" class="post-category">
+                                FreeRTOS相关
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2023-09-24
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-10-05
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    5.4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    22 分
+                </div>
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="同步与互斥"><a href="#同步与互斥" class="headerlink" title="同步与互斥"></a>同步与互斥</h1><p>同步与互斥主要是指在使用同一个资源的时候，一次只能由一个任务使用，后面的任务如果也想使用这个资源的时候只有等到前面的任务释放了这个资源才能使用。</p>
+<p>常见的同步互斥的实现有：队列、任务通知、信号量、互斥量、事件组。</p>
+<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><h3 id="队列的使用"><a href="#队列的使用" class="headerlink" title="队列的使用"></a>队列的使用</h3><p>如果队列中没有数据，那么在读取这个队列的时候会进入到阻塞状态，直到队列中有数据为止。所以两个或以上的任务在抢夺相同资源的时候，可以将这个资源放入到队列中，如果拿到这个资源的任务先将队列清空，其他的任务等待这个资源直到这个任务完成的时候在将这个资源放入队列。</p>
+<p>创建队列函数<code>QueueHandle_t xQueueCreate( UBaseType_t uxQueueLength, UBaseType_t uxItemSize )  </code></p>
+<blockquote>
+<p>uxQueueLength:指队列的长度</p>
+<p>uxTtemSize:队列数据每个数据的大小</p>
+<p>返回值：成功返回队列句柄，失败返回0</p>
+</blockquote>
+<p>队列的本质是一个环形缓冲区，在队列的内部有几个参数比较重要。</p>
+<p><strong>队列参数：</strong></p>
+<p><strong>1. pchead 指向buf首地址，指针的地址不会随着读取的位置变化而变化</strong></p>
+<p><strong>2.pcreadfrom 上一次读地址的位置</strong></p>
+<p><strong>3.pcwrite 上一次写的地址，默认情况下到队尾</strong></p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QueueHandle = xQueueCreate(<span class="number">1</span>,<span class="keyword">sizeof</span>(<span class="type">int</span>)); <span class="comment">//创建一个存放1nt大小的队列</span></span><br></pre></td></tr></table></figure>
+
+<p>在创建队列的时候，也可以传入结构体。</p>
+<h3 id="队列写操作"><a href="#队列写操作" class="headerlink" title="队列写操作"></a>队列写操作</h3><p>写入数据时会拷贝itemsize大小的空间然后调整pcwirte指针的地址pcwrite +&#x3D; itemsize。如果队列写满的时候可以传入一个等待时间，如果不等待则立刻报错。在等待时间内会将任务放入xTaskwaitingTosend的队列，在等待时间后如果队列还是满的则报错。写满数据后pcwrite会在队列尾部跳转到头部。</p>
+<p>写队列函数<code>BaseType_t xQueueSend(QueueHandle_t xQueue,const void *pvItemToQueue,TickType_t xTicksToWait)</code></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xQueue</td>
+<td>队列句柄</td>
+</tr>
+<tr>
+<td>pvItemToQueue</td>
+<td>写入队列的数据指针，</td>
+</tr>
+<tr>
+<td>xTicksToWait</td>
+<td>如果队列满的时候可以阻塞多长时间，如果传入portMAX_DELAY则表示等待可以等待的最长时间</td>
+</tr>
+</tbody></table>
+<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xQueueSend(QueueHandle,&amp;a,portMAX_DELAY);  <span class="comment">// 传入变量a的地址到队列</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="队列读操作"><a href="#队列读操作" class="headerlink" title="队列读操作"></a>队列读操作</h3><p>读操作会将读到的数据放入buf中，如果没有数据会等待一段时间后报错，由于pcreadfrom指向的时上一次读的位置，所以在下一次读的时候pcreadfrom+&#x3D;itemsize，如果pcreadfrom到达列尾则下一次读时返回头部。</p>
+<p>读队列函数：<code>BaseType_t xQueueReceive( QueueHandle_t xQueue,void * const pvBuffer,TickType_t xTicksToWait );  </code></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xQueue</td>
+<td>欲读取的队列的队列句柄</td>
+</tr>
+<tr>
+<td>pvBuffer</td>
+<td>将读到的数据放入到buffer中</td>
+</tr>
+<tr>
+<td>xTicksToWait</td>
+<td>如果队列为空的时候可以阻塞多长时间，如果传入portMAX_DELAY则表示等待可以等待的最长时间</td>
+</tr>
+</tbody></table>
+<h3 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xQueueReceive(QueueHandle,&amp;val,portMAX_DELAY);<span class="comment">//读取QueueHandle句柄的队列，并且将读取到的数据放入到val中，延迟时间portMAX_DELAY</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="综合示例"><a href="#综合示例" class="headerlink" title="综合示例"></a>综合示例</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建两个任务，并且初始化传入一个默认的任务。task1和task2争抢队列资源，没有抢到的任务进行等到，抢到的任务获取队列中的数值并且打印该资源的值。执行完毕之后在完队列中传入一个数值。以便让其他任务调用。</span></span><br><span class="line"><span class="type">void</span>* <span class="title function_">Task1</span><span class="params">(<span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> rev;</span><br><span class="line">	<span class="type">int</span> val =<span class="number">3</span>;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		flag1=<span class="number">1</span>;</span><br><span class="line">		flag2=<span class="number">0</span>;</span><br><span class="line">		xQueueReceive(QueueHandle,&amp;rev,portMAX_DELAY);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;task1:%d\n&quot;</span>,rev);</span><br><span class="line">		xQueueSend( QueueHandle,&amp;val,portMAX_DELAY);</span><br><span class="line">		vTaskResume(Task2Handle);</span><br><span class="line">		vTaskResume(Task3Handle);</span><br><span class="line">		vTaskDelay(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span>* <span class="title function_">Task2</span><span class="params">(<span class="type">void</span>* param)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> val;</span><br><span class="line">	<span class="type">int</span> val2 = <span class="number">5</span>;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		flag1=<span class="number">0</span>;</span><br><span class="line">		flag2=<span class="number">1</span>;</span><br><span class="line">		xQueueReceive(QueueHandle,&amp;val,portMAX_DELAY);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;task2:%d\n&quot;</span>,val);	</span><br><span class="line">		xQueueSend(QueueHandle,&amp;val2,portMAX_DELAY);</span><br><span class="line">		vTaskDelay(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">( <span class="type">void</span> )</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> DEBUG</span></span><br><span class="line">  debug();</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">	<span class="type">int</span> a=<span class="number">10</span>;</span><br><span class="line">	prvSetupHardware();</span><br><span class="line">	QueueHandle = xQueueCreate(<span class="number">1</span>,<span class="keyword">sizeof</span>(<span class="type">int</span>));<span class="comment">// 创建队列</span></span><br><span class="line">	<span class="keyword">if</span>(QueueHandle == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;queue is not create&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	xTaskCreate(Task1,<span class="string">&quot;task1&quot;</span>,<span class="number">50</span>,<span class="literal">NULL</span>,<span class="number">0</span>,&amp;Task1Handle);  <span class="comment">// 创建两个任务</span></span><br><span class="line">	xTaskCreate(Task2,<span class="string">&quot;task2&quot;</span>,<span class="number">50</span>,<span class="literal">NULL</span>,<span class="number">0</span>,&amp;Task2Handle);</span><br><span class="line">	xQueueSend(QueueHandle,&amp;a,portMAX_DELAY);  <span class="comment">// 往队列中放入一个资源</span></span><br><span class="line"><span class="comment">//	xTaskCreate(Task3,&quot;task3&quot;,50,NULL,1,NULL);</span></span><br><span class="line">	<span class="comment">/* Start the scheduler. */</span></span><br><span class="line">	</span><br><span class="line">	vTaskStartScheduler();</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/* Will only get here if there was not enough heap space to create the</span></span><br><span class="line"><span class="comment">	idle task. */</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202309252342015.png" alt="输出结果"></p>
+<h2 id="队列集"><a href="#队列集" class="headerlink" title="队列集"></a>队列集</h2><p>队列集中存放了不同的队列，比如键盘队列以及鼠标队列等等都可以放入到统称为用户的队列中。创建队列集的大小为所存放队列大小的总和，如A队列大小为3、B为4、C为5，如果将ABC中放入队列集中那么队列集的大小至少为12。</p>
+<h4 id="队列集的使用"><a href="#队列集的使用" class="headerlink" title="队列集的使用"></a>队列集的使用</h4><p>如果很多队列都放入到队列集中那么应该怎么判断获取的队列是哪一个队列呢？这种解决方法可以往队列中传入数据时候传入一个数据结构，数据结构中包含name等成员，获取到这个队列的时候可以读取队列结构体进行判断。</p>
+<p>创建队列集：<code>QueueSetHandle_t xQueueCreateSet( const UBaseType_t uxEventQueueLength );  </code></p>
+<p>参考FreeRTOS手册：</p>
+<blockquote>
+<p>uxEventQueueLength:Queue sets store events that occur on the queues and semaphores contained in the set. uxEventQueueLength specifies the maximum number of events that can be queued at once. To be absolutely certain that events are not lost uxEventQueueLength must be set to the sum of the lengths of the queues added to the set, where binary semaphores and mutexes have a length of 1, and counting semaphores have a length set by their maximum count value. For example:  If a queue set is to hold a queue of length 5, another queue of length 12, and a binary semaphore, then uxEventQueueLength should be set to (5 + 12 + 1), or 18.</p>
+</blockquote>
+<p>说明创建队列集的参数选取的是队列大小的总和。</p>
+<p>返回值</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NULL</td>
+<td>队列集创建失败</td>
+</tr>
+<tr>
+<td>队列集句柄</td>
+<td>队列集创建成功</td>
+</tr>
+</tbody></table>
+<h4 id="队列集添加队列"><a href="#队列集添加队列" class="headerlink" title="队列集添加队列"></a>队列集添加队列</h4><p> 队列集添加队列的函数：<code>BaseType_t xQueueAddToSet( QueueSetMemberHandle_t xQueueOrSemaphore,QueueSetHandle_t xQueueSet );  </code></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xQueueOrSemaphore</td>
+<td>要添加到队列集的队列或信号量的句柄</td>
+</tr>
+<tr>
+<td>xQueueSet</td>
+<td>队列集句柄</td>
+</tr>
+</tbody></table>
+<h4 id="获取队列集中的队列"><a href="#获取队列集中的队列" class="headerlink" title="获取队列集中的队列"></a>获取队列集中的队列</h4><p>获取队列集队列的函数<code>QueueSetMemberHandle_t xQueueSelectFromSet( QueueSetHandle_t xQueueSet,const TickType_t xTicksToWait );  </code></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xQueueSet</td>
+<td>传入队列集的句柄</td>
+</tr>
+<tr>
+<td>xTicksToWait</td>
+<td>如果队列集空的时候可以阻塞多长时间，如果传入portMAX_DELAY则表示等待可以等待的最长时间</td>
+</tr>
+</tbody></table>
+<p>使用xQueueSelectFromSet返回获取到的队列句柄，如果想获取队列里面的内容则需要在使用xQueueReceive获取（跟队列的操作一样）。</p>
+<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><p>前面的队列以及队列集可以携带信息给到另外一个任务，这里介绍的信号量只能进行任务通知，比如A任务执行完任务之后放入信号量来通知B任务，“我执行完了，你现在可以执行了！”。</p>
+<p>信号量的本质是队列，但是信号量只能够表示资源数量，无法传输数据，放入信号量计数值+1，取出信号量计数量-1。</p>
+<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202309262234920.png"></p>
+<p>信号量分为：计数型信号量、二进制型信号量。</p>
+<p>计数型信号量</p>
+<ol>
+<li>初始化时可以是任何值</li>
+<li>使用give可以一直向上计数</li>
+</ol>
+<p>二进制型信号量</p>
+<ol>
+<li>初始化的时候值为0</li>
+<li>只有两个计数值0和1</li>
+</ol>
+<h3 id="创建信号量"><a href="#创建信号量" class="headerlink" title="创建信号量"></a>创建信号量</h3><p>创建二进制型信号量：<code>SemaphoreHandle_t xSemaphoreCreateBinary( void );  </code></p>
+<p>创建计数型信号量：<code>SemaphoreHandle_t xSemaphoreCreateCounting(UBaseType_t uxMaxCount, UBaseType_t uxInitialCount);  </code> </p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>uxMaxCount</td>
+<td>最大的计数数量</td>
+</tr>
+<tr>
+<td>uxInitialCount</td>
+<td>技术型信号量的初始值</td>
+</tr>
+</tbody></table>
+<p>返回信号量句柄。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">semaphorecount = xSemaphoreCreateCounting(<span class="number">1</span>, <span class="number">0</span>);<span class="comment">// 创建计数型信号量，最大值为1，初始值为0，由此计数型信号量也可以模拟二进制型信号量</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="删除信号量"><a href="#删除信号量" class="headerlink" title="删除信号量"></a>删除信号量</h3><p>删除信号量函数：<code>void vSemaphoreDelete( SemaphoreHandle_t xSemaphore );  </code></p>
+<h3 id="信号量的使用（give-take）"><a href="#信号量的使用（give-take）" class="headerlink" title="信号量的使用（give&#x2F;take）"></a>信号量的使用（give&#x2F;take）</h3><p>放入信号量：<code>BaseType_t xSemaphoreGive( SemaphoreHandle_t xSemaphore );  </code></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xSemaphore</td>
+<td>传入想要放入信号量的信号量句柄</td>
+</tr>
+</tbody></table>
+<p>取出信号量：<code>BaseType_t xSemaphoreTake(SemaphoreHandle_t xSemaphore,TickType_t xTicksToWait);  </code></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xSemaphore</td>
+<td>想要取出信号量的信号量句柄</td>
+</tr>
+<tr>
+<td>xTicksToWait</td>
+<td>如果信号量的值为0则可以等待多长时间，如果传入portMAX_DELAY则表示等待可以等待的最长时间</td>
+</tr>
+</tbody></table>
+<h3 id="综合示例-1"><a href="#综合示例-1" class="headerlink" title="综合示例"></a>综合示例</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">TaskHandle_t Task1Handle;</span><br><span class="line">TaskHandle_t Task2Handle;</span><br><span class="line">SemaphoreHandle_t SemaphoreHandle;</span><br><span class="line">QueueHandle_t semaphorecount;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">void</span>* <span class="title function_">Task1</span><span class="params">(<span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		xSemaphoreTake(SemaphoreHandle,  portMAX_DELAY);  <span class="comment">// 获取信号量</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Task1:\n&quot;</span>);</span><br><span class="line">		xSemaphoreGive(SemaphoreHandle);  <span class="comment">// 放入信号量</span></span><br><span class="line">		vTaskDelay(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span>* <span class="title function_">Task2</span><span class="params">(<span class="type">void</span>* param)</span></span><br><span class="line">&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		xSemaphoreTake(SemaphoreHandle,  portMAX_DELAY);  <span class="comment">// 获取信号量</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Task2:\n&quot;</span>);</span><br><span class="line">		xSemaphoreGive(SemaphoreHandle);  <span class="comment">// 放入信号量</span></span><br><span class="line">		vTaskDelay(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">( <span class="type">void</span> )</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> DEBUG</span></span><br><span class="line">  debug();</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">	prvSetupHardware();</span><br><span class="line">	SemaphoreHandle = xSemaphoreCreateCounting(<span class="number">1</span>, <span class="number">0</span>);  <span class="comment">// 创建计数型信号量</span></span><br><span class="line">	xTaskCreate(Task1,<span class="string">&quot;task1&quot;</span>,<span class="number">50</span>,<span class="literal">NULL</span>,<span class="number">0</span>,&amp;Task1Handle);</span><br><span class="line">	xTaskCreate(Task2,<span class="string">&quot;task2&quot;</span>,<span class="number">50</span>,<span class="literal">NULL</span>,<span class="number">0</span>,&amp;Task2Handle);</span><br><span class="line">	xSemaphoreGive(SemaphoreHandle);  <span class="comment">// 初始化放入一个值</span></span><br><span class="line">	vTaskStartScheduler();</span><br><span class="line">	<span class="comment">/* Will only get here if there was not enough heap space to create the</span></span><br><span class="line"><span class="comment">	idle task. */</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202309262306480.png" alt="运行结果"></p>
+<h2 id="互斥量"><a href="#互斥量" class="headerlink" title="互斥量"></a>互斥量</h2><p>使用信号量的时候需要保证在A任务获得了资源后，B任务等待A执行结束放入资源。但是此时出现了一个C任务give信号量，导致在A任务执行期间B任务也开始执行导致与我们预想的AB只有一个执行不同。所以解决的措施是要谁上锁谁解锁，不能交由第三方。</p>
+<p>在了解互斥量之前先了解两个概念：优先级继承、优先级反转。</p>
+<h3 id="优先级反转"><a href="#优先级反转" class="headerlink" title="优先级反转"></a>优先级反转</h3><p>设想这样的一个场景，在使用信号量的时候假设有三个任务他们有着不同的优先级，A：1、B：2、C：3，并且A和C使用的是同一把锁A先执行获得锁。在A获取锁还么有释放的时候，B任务执行，由于B的优先级大于A 则B任务一直执行导致A任务跟优先级更高的C任务都不能够执行，这种优先级低的任务比优先级高的任务先执行的例子就是优先级反转。</p>
+<h3 id="优先级继承"><a href="#优先级继承" class="headerlink" title="优先级继承"></a>优先级继承</h3><p><strong>解决优先级反转的问题就是使用优先级继承。</strong></p>
+<p>优先级继承是指：低优先级获得锁的时候高优先级为了能够获得锁执行，<strong>临时</strong>将低优先级的任务优先级提升，等待低优先级的任务执行完成并且高优先级能够获得资源，那么低优先级的任务恢复到原来的优先级。</p>
+<h3 id="互斥量的使用"><a href="#互斥量的使用" class="headerlink" title="互斥量的使用"></a>互斥量的使用</h3><p>互斥量跟信号量最大的不同点在于互斥量能够解决上述优先级反转的问题。获得互斥量的任务能够进行优先级继承。</p>
+<p>互斥量的值与二进制信号量一样只有0跟1。</p>
+<h4 id="创建互斥量"><a href="#创建互斥量" class="headerlink" title="创建互斥量"></a>创建互斥量</h4><p>创建互斥量的函数：<code>SemaphoreHandle_t xSemaphoreCreateMutex( void );  </code></p>
+<p>创建互斥量返回信号句柄。</p>
+<h4 id="互斥量的其他操作"><a href="#互斥量的其他操作" class="headerlink" title="互斥量的其他操作"></a>互斥量的其他操作</h4><p>互斥量在删除、Give和Take上与信号量一样。使用以下函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">vSemaphoreDelete</span><span class="params">( SemaphoreHandle_t xSemaphore )</span>;  <span class="comment">// 删除互斥量</span></span><br><span class="line">BaseType_t <span class="title function_">xSemaphoreGive</span><span class="params">( SemaphoreHandle_t xSemaphore )</span>;  <span class="comment">// 放入互斥量</span></span><br><span class="line">BaseType_t <span class="title function_">xSemaphoreTake</span><span class="params">(SemaphoreHandle_t xSemaphore,TickType_t xTicksToWait)</span>;  <span class="comment">// 获取互斥量</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="互斥量的使用案例"><a href="#互斥量的使用案例" class="headerlink" title="互斥量的使用案例"></a>互斥量的使用案例</h4><p>下面对使用互斥量和信号量进行一个对比：</p>
+<p><strong>不使用互斥量的时候：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">TaskHandle_t Task1Handle;</span><br><span class="line">TaskHandle_t Task2Handle;</span><br><span class="line">TaskHandle_t Task3Handle;</span><br><span class="line">SemaphoreHandle_t semaphore_Handle ;</span><br><span class="line"><span class="type">int</span> <span class="title function_">fputc</span><span class="params">( <span class="type">int</span> ch, FILE *f )</span>;</span><br><span class="line"><span class="type">uint16_t</span> flag1 = <span class="number">0</span>;</span><br><span class="line"><span class="type">uint16_t</span> flag2 = <span class="number">0</span>;</span><br><span class="line"><span class="type">uint16_t</span> flag3 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Task1</span><span class="params">(<span class="type">void</span> * param)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		flag1 = <span class="number">1</span>;</span><br><span class="line">		flag2 = <span class="number">0</span>;</span><br><span class="line">		flag3 = <span class="number">0</span>;</span><br><span class="line">		xSemaphoreTake(semaphore_Handle, portMAX_DELAY);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;this is task1&quot;</span>);</span><br><span class="line">		xSemaphoreGive(semaphore_Handle);</span><br><span class="line">		vTaskDelay(<span class="number">1</span>);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">Task2</span><span class="params">(<span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//vTaskDelay(6);</span></span><br><span class="line">		xSemaphoreTake(semaphore_Handle, portMAX_DELAY);</span><br><span class="line">		flag1 = <span class="number">0</span>;</span><br><span class="line">		flag2 = <span class="number">1</span>;</span><br><span class="line">		flag3 = <span class="number">0</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;this is task2&quot;</span>);</span><br><span class="line">		xSemaphoreGive(semaphore_Handle);</span><br><span class="line">		vTaskDelay(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Task3</span><span class="params">(<span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//vTaskDelay(5);</span></span><br><span class="line">		flag1 = <span class="number">0</span>;</span><br><span class="line">		flag2 = <span class="number">0</span>;</span><br><span class="line">		flag3 = <span class="number">1</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;this is task3&quot;</span>);</span><br><span class="line">		vTaskDelay(<span class="number">1</span>);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">( <span class="type">void</span> )</span></span><br><span class="line">&#123;	</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> DEBUG</span></span><br><span class="line">  debug();</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">	prvSetupHardware();</span><br><span class="line"></span><br><span class="line">	xTaskCreate(Task1,<span class="string">&quot;task1&quot;</span>,<span class="number">20</span>,<span class="literal">NULL</span>,<span class="number">1</span>,&amp;Task1Handle);</span><br><span class="line">	xTaskCreate(Task2,<span class="string">&quot;task2&quot;</span>,<span class="number">20</span>,<span class="literal">NULL</span>,<span class="number">3</span>,&amp;Task2Handle);</span><br><span class="line">	xTaskCreate(Task3,<span class="string">&quot;task3&quot;</span>,<span class="number">20</span>,<span class="literal">NULL</span>,<span class="number">2</span>,&amp;Task3Handle);</span><br><span class="line">	semaphore_Handle = xSemaphoreCreateBinary(); <span class="comment">// 使用信号量</span></span><br><span class="line">	xSemaphoreGive(semaphore_Handle);</span><br><span class="line">	<span class="comment">/* Start the scheduler. */</span></span><br><span class="line">	vTaskStartScheduler();</span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202310050037189.png" alt="不使用互斥量的时候"></p>
+<p><strong>使用互斥量的时候：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">TaskHandle_t Task1Handle;</span><br><span class="line">TaskHandle_t Task2Handle;</span><br><span class="line">TaskHandle_t Task3Handle;</span><br><span class="line">SemaphoreHandle_t semaphore_Handle ;</span><br><span class="line"><span class="type">int</span> <span class="title function_">fputc</span><span class="params">( <span class="type">int</span> ch, FILE *f )</span>;</span><br><span class="line"><span class="type">uint16_t</span> flag1 = <span class="number">0</span>;</span><br><span class="line"><span class="type">uint16_t</span> flag2 = <span class="number">0</span>;</span><br><span class="line"><span class="type">uint16_t</span> flag3 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Task1</span><span class="params">(<span class="type">void</span> * param)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		flag1 = <span class="number">1</span>;</span><br><span class="line">		flag2 = <span class="number">0</span>;</span><br><span class="line">		flag3 = <span class="number">0</span>;</span><br><span class="line">		xSemaphoreTake(semaphore_Handle, portMAX_DELAY);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;this is task1&quot;</span>);</span><br><span class="line">		xSemaphoreGive(semaphore_Handle);</span><br><span class="line">		vTaskDelay(<span class="number">1</span>);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">Task2</span><span class="params">(<span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//vTaskDelay(6);</span></span><br><span class="line">		xSemaphoreTake(semaphore_Handle, portMAX_DELAY);</span><br><span class="line">		flag1 = <span class="number">0</span>;</span><br><span class="line">		flag2 = <span class="number">1</span>;</span><br><span class="line">		flag3 = <span class="number">0</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;this is task2&quot;</span>);</span><br><span class="line">		xSemaphoreGive(semaphore_Handle);</span><br><span class="line">		vTaskDelay(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Task3</span><span class="params">(<span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//vTaskDelay(5);</span></span><br><span class="line">		flag1 = <span class="number">0</span>;</span><br><span class="line">		flag2 = <span class="number">0</span>;</span><br><span class="line">		flag3 = <span class="number">1</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;this is task3&quot;</span>);</span><br><span class="line">		vTaskDelay(<span class="number">1</span>);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">( <span class="type">void</span> )</span></span><br><span class="line">&#123;	</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> DEBUG</span></span><br><span class="line">  debug();</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">	prvSetupHardware();</span><br><span class="line"></span><br><span class="line">	xTaskCreate(Task1,<span class="string">&quot;task1&quot;</span>,<span class="number">20</span>,<span class="literal">NULL</span>,<span class="number">1</span>,&amp;Task1Handle);</span><br><span class="line">	xTaskCreate(Task2,<span class="string">&quot;task2&quot;</span>,<span class="number">20</span>,<span class="literal">NULL</span>,<span class="number">3</span>,&amp;Task2Handle);</span><br><span class="line">	xTaskCreate(Task3,<span class="string">&quot;task3&quot;</span>,<span class="number">20</span>,<span class="literal">NULL</span>,<span class="number">2</span>,&amp;Task3Handle);</span><br><span class="line">	semaphore_Handle = xSemaphoreCreateMutex();</span><br><span class="line">	xSemaphoreGive(semaphore_Handle);</span><br><span class="line">	<span class="comment">/* Start the scheduler. */</span></span><br><span class="line">	vTaskStartScheduler();</span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202310050031233.png" alt="实现优先级继承"></p>
+<p>根据上面的现象可以看到，使用互斥量的时候可以实现优先级的继承使得任务二也能够得到执行。</p>
+<h4 id="递归锁"><a href="#递归锁" class="headerlink" title="递归锁"></a>递归锁</h4><p>设想以下的画面，如果函数A获得了互斥量M1，在A的函数里面又调用了另外一个函数B，但是函数B里面也需要使用M1，此时A要等待B运行完才能运行，但是M1又在A手中，B需要M1才能执行。所以就造成了递归锁。</p>
+<p>解决上述递归死锁的方法：</p>
+<ol>
+<li>避免在函数里面调用其他的会进入阻塞状态的函数。</li>
+<li>使用递归锁，解决锁只用获取一次，即使调用的函数需要使用这个互斥量也能够获得锁。</li>
+</ol>
+<h5 id="创建函数"><a href="#创建函数" class="headerlink" title="创建函数"></a>创建函数</h5><p>创建递归锁函数：<code>SemaphoreHandle_t xSemaphoreCreateRecursiveMutex( void );</code></p>
+<p>返回值是SemaphoreHandle_t </p>
+<h5 id="获得递归锁"><a href="#获得递归锁" class="headerlink" title="获得递归锁"></a>获得递归锁</h5><p>获得递归锁的函数：<code>BaseType_t xSemaphoreTakeRecursive(SemaphoreHandle_t xSemaphore,TickType_t xTicksToWait); </code></p>
+<h5 id="释放递归锁"><a href="#释放递归锁" class="headerlink" title="释放递归锁"></a>释放递归锁</h5><p>释放递归锁的函数：<code>BaseType_t xSemaphoreGiveRecursive( SemaphoreHandle_t xSemaphore );  </code></p>
+<h5 id="递归锁案例"><a href="#递归锁案例" class="headerlink" title="递归锁案例"></a>递归锁案例</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">TaskHandle_t Task1Handle;</span><br><span class="line">SemaphoreHandle_t xSemaphore;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">fputc</span><span class="params">( <span class="type">int</span> ch, FILE *f )</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Sub_Task1</span><span class="params">(<span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	xSemaphoreTakeRecursive(xSemaphore, portMAX_DELAY);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;this is sub_task1\n&quot;</span>);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Task1</span><span class="params">(<span class="type">void</span> * param)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">		xSemaphoreTakeRecursive(xSemaphore, portMAX_DELAY);</span><br><span class="line">		Sub_Task1(<span class="literal">NULL</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;this is task1\n&quot;</span>);</span><br><span class="line">		xSemaphoreGiveRecursive(xSemaphore);</span><br><span class="line">		vTaskDelay(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">( <span class="type">void</span> )</span></span><br><span class="line">&#123;</span><br><span class="line">	</span><br><span class="line">		</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> DEBUG</span></span><br><span class="line">  debug();</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">	prvSetupHardware();</span><br><span class="line"></span><br><span class="line">	xTaskCreate(Task1,<span class="string">&quot;task1&quot;</span>,<span class="number">20</span>,<span class="literal">NULL</span>,<span class="number">1</span>,&amp;Task1Handle);</span><br><span class="line">	</span><br><span class="line">	xSemaphore = xSemaphoreCreateRecursiveMutex();</span><br><span class="line">	<span class="comment">/* Start the scheduler. */</span></span><br><span class="line">	vTaskStartScheduler();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202310050103570.png" alt="运行结果"></p>
+<p><em><strong>如果将上述的递归锁换成互斥量，那么将出现卡死现象</strong></em></p>
+<h2 id="事件组"><a href="#事件组" class="headerlink" title="事件组"></a>事件组</h2><p>事件组可以在等到个别任务全部完成或等到某几个指定的任务完成之后才执行另外一个任务。例如吃饭任务需要等待买菜，买厨具，做饭，摆桌等全部的任务执行完成之后才能够执行吃饭的任务。</p>
+<p>事件组用一个整数来表示，其中的高8位留给内核使用，只能用其他的位来表示事件。  如果configUSE_16_BIT_TICKS是1，那么这个整数就是16位的，低8位用来表示事件，如果configUSE_16_BIT_TICKS是0，那么这个整数就是32位的，低24位用来表示事件。<br>configUSE_16_BIT_TICKS是用来表示Tick Count的，怎么会影响事件组？这只是基于效率来考虑，如果configUSE_16_BIT_TICKS是1，就表示该处理器使用16位更高效，所以事件组也使用16位，如果configUSE_16_BIT_TICKS是0，就表示该处理器使用32位更高效，所以事件组也使用32位。</p>
+<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202310021436909.png"></p>
+<h3 id="创建-删除事件组"><a href="#创建-删除事件组" class="headerlink" title="创建&#x2F;删除事件组"></a>创建&#x2F;删除事件组</h3><p>创建事件组使用的函数是<code>EventGroupHandle_t xEventGroupCreate( void );  </code>返回值是事件组句柄。如果创建失败则返回NULL。</p>
+<p>删除事件组使用的函数是<code>void vEventGroupDelete( EventGroupHandle_t xEventGroup );</code>传入的参数是欲删除的事件组句柄。</p>
+<h3 id="设置事件组"><a href="#设置事件组" class="headerlink" title="设置事件组"></a>设置事件组</h3><p>在某个任务完成之后可以设置某个事件的标志位例如A任务完成之后需要置bit0，bit9位为1。如果后面的任务需要判断A函数是否执行完成，就可以判断事件组中的第0和9位是否置1，如果置1那么表示A事件执行完成。</p>
+<p>设置事件组的函数<code>EventBits_t xEventGroupSetBits( EventGroupHandle_t xEventGroup,const EventBits_t uxBitsToSet )</code></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xEventGroup</td>
+<td>需要放置的事件句柄</td>
+</tr>
+<tr>
+<td>uxBitsToSet</td>
+<td>需要设置的位，例如传入0X09，表示置bit0，bit3位为1</td>
+</tr>
+</tbody></table>
+<h3 id="等待事件组"><a href="#等待事件组" class="headerlink" title="等待事件组"></a>等待事件组</h3><p>跟前面的队列，互斥量、信号量类似，有人放就有人拿。有人放置事件组，那么就应该有相应的任务D等待事件组，该任务D等到事件组满足条件之后，D才能够执行。</p>
+<p>等待事件组的函数是<code>EventBits_t xEventGroupWaitBits( const EventGroupHandle_t xEventGroup,const EventBits_t uxBitsToWaitFor,const BaseType_t xClearOnExit,const BaseType_t xWaitForAllBits,TickType_t xTicksToWait);</code>等待事件组可以是等待某一个位，也可以是等待多个位、也可以清除某些位。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xEventGroup</td>
+<td>要等待的事件组句柄。</td>
+</tr>
+<tr>
+<td>uxBitsToWaitFor</td>
+<td>要等待的位，可以是十六进制如0x15，或则是某两个位的或值。</td>
+</tr>
+<tr>
+<td>xClearOnExit</td>
+<td>事件组满足条件之后，执行完等待指令是否要清除uxBitsToWaitFor中的位，pdTRUE: 清除uxBitsToWaitFor指定的位 pdFALSE: 不清除。</td>
+</tr>
+<tr>
+<td>xWaitForAllBits</td>
+<td>是否等待uxBitsToWaitFor所有的位，pdTRUE：等待所有的位 pdFALSE：等待uxBitsToWaitFor某一位。</td>
+</tr>
+<tr>
+<td>xTicksToWait</td>
+<td>等待时间。</td>
+</tr>
+</tbody></table>
+<p><code>xClearOnExit</code>参数如果设置位pdFalse，那么在执行完函数等待事件函数的时候相应的位不会被清除，后续如果想清除可以使用<code>EventBits_t xEventGroupClearBits( EventGroupHandle_t xEventGroup,const EventBits_t uxBitsToClear );</code>函数清除，但是在等待事件和清除函数之间可能被其他的任务打断然后写入新的位，后面在执行清除操作的时候就会发生误差&#x2F;错误。所以想要清除位在等待事件函数中清除可以减少原子性。</p>
+<h3 id="等待事件组案例"><a href="#等待事件组案例" class="headerlink" title="等待事件组案例"></a>等待事件组案例</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">TaskHandle_t Task1Handle;</span><br><span class="line">TaskHandle_t Task2Handle;</span><br><span class="line">TaskHandle_t Task3Handle;</span><br><span class="line">SemaphoreHandle_t xSemaphore;</span><br><span class="line">EventGroupHandle_t EventHandle;</span><br><span class="line"><span class="type">uint16_t</span> flag1 = <span class="number">0</span>;</span><br><span class="line"><span class="type">uint16_t</span> flag2 = <span class="number">0</span>;</span><br><span class="line"><span class="type">uint16_t</span> flag3 = <span class="number">0</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">fputc</span><span class="params">( <span class="type">int</span> ch, FILE *f )</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">Task1</span><span class="params">(<span class="type">void</span> * param)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		flag1 = <span class="number">1</span>;</span><br><span class="line">		flag2 = <span class="number">0</span>;</span><br><span class="line">		flag3 = <span class="number">0</span>;</span><br><span class="line">		</span><br><span class="line">		xEventGroupSetBits(EventHandle,<span class="number">0x06</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;task1 final\n&quot;</span>);</span><br><span class="line">		vTaskDelay(<span class="number">5</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">Task2</span><span class="params">(<span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		flag1 = <span class="number">0</span>;</span><br><span class="line">		flag2 = <span class="number">1</span>;</span><br><span class="line">		flag3 = <span class="number">0</span>;</span><br><span class="line">		xEventGroupSetBits(EventHandle,<span class="number">0x09</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;task2 final\n&quot;</span>);</span><br><span class="line">		vTaskDelay(<span class="number">5</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">Task3</span><span class="params">(<span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		flag1 = <span class="number">0</span>;</span><br><span class="line">		flag2 = <span class="number">0</span>;</span><br><span class="line">		flag3 = <span class="number">1</span>;</span><br><span class="line">		xEventGroupWaitBits(EventHandle,<span class="number">0x0F</span>,pdTRUE,pdTRUE,portMAX_DELAY);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;finally all\n&quot;</span>);</span><br><span class="line">		vTaskDelay(<span class="number">5</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">( <span class="type">void</span> )</span></span><br><span class="line">&#123;	</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> DEBUG</span></span><br><span class="line">  debug();</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">	prvSetupHardware();</span><br><span class="line"></span><br><span class="line">	xTaskCreate(Task1,<span class="string">&quot;task1&quot;</span>,<span class="number">20</span>,<span class="literal">NULL</span>,<span class="number">1</span>,&amp;Task1Handle);</span><br><span class="line">	xTaskCreate(Task2,<span class="string">&quot;task2&quot;</span>,<span class="number">20</span>,<span class="literal">NULL</span>,<span class="number">1</span>,&amp;Task2Handle);</span><br><span class="line">	xTaskCreate(Task3,<span class="string">&quot;task3&quot;</span>,<span class="number">20</span>,<span class="literal">NULL</span>,<span class="number">1</span>,&amp;Task3Handle);</span><br><span class="line">	EventHandle = xEventGroupCreate();</span><br><span class="line">	xSemaphore = xSemaphoreCreateRecursiveMutex();</span><br><span class="line">	<span class="comment">/* Start the scheduler. */</span></span><br><span class="line">	vTaskStartScheduler();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202310050137417.png" alt="运行结果"></p>
+<h3 id="同步点"><a href="#同步点" class="headerlink" title="同步点"></a>同步点</h3><p>同步点主要是服务于有一个事件需要多个任务同步完成，大家都完成之后才能够执行同一件事。</p>
+<p>例如一共有三个人：</p>
+<ul>
+<li>A：准备食材</li>
+<li>B：去买酒</li>
+<li>C：做饭</li>
+</ul>
+<p>A、B、C只有等到上述所有的事都做完之后才能吃饭，所以吃饭时三个任务的同步点。</p>
+<h4 id="同步点使用"><a href="#同步点使用" class="headerlink" title="同步点使用"></a>同步点使用</h4><p>创建同步点函数<code>EventBits_t xEventGroupSync( EventGroupHandle_t xEventGroup,const EventBits_t uxBitsToSet,const EventBits_t uxBitsToWaitFor,TickType_t xTicksToWait );  </code></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xEventGroup</td>
+<td>同步的事件组</td>
+</tr>
+<tr>
+<td>uxBitsToSet</td>
+<td>想要设置的事件组的位</td>
+</tr>
+<tr>
+<td>uxBitsToWaitFor</td>
+<td>想要等待的事件组的位</td>
+</tr>
+<tr>
+<td>xTicksToWait</td>
+<td>可以等待的时间</td>
+</tr>
+</tbody></table>
+<h4 id="同步点案例"><a href="#同步点案例" class="headerlink" title="同步点案例"></a>同步点案例</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">EventGroupHandle_t EventHandle;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Retargets the C library printf function to the USART.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">fputc</span><span class="params">( <span class="type">int</span> ch, FILE *f )</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Configures the timers and interrupts for the fast interrupt test as</span></span><br><span class="line"><span class="comment"> * described at the top of this file.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Task1</span><span class="params">(<span class="type">void</span> * param)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">		xEventGroupSync(EventHandle, <span class="number">0x01</span>, <span class="number">0x07</span>, portMAX_DELAY);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;All task has completed ,task1 running\n&quot;</span>);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">Task2</span><span class="params">(<span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		xEventGroupSync(EventHandle, <span class="number">0x02</span>, <span class="number">0x07</span>, portMAX_DELAY);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;All task has completed ,task2 running\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">Task3</span><span class="params">(<span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">		xEventGroupSync(EventHandle, <span class="number">0x04</span>, <span class="number">0x07</span>, portMAX_DELAY);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;All task has completed ,task3 running\n&quot;</span>);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">( <span class="type">void</span> )</span></span><br><span class="line">&#123;	</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> DEBUG</span></span><br><span class="line">  debug();</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">	prvSetupHardware();</span><br><span class="line"></span><br><span class="line">	xTaskCreate(Task1,<span class="string">&quot;task1&quot;</span>,<span class="number">20</span>,<span class="literal">NULL</span>,<span class="number">1</span>,&amp;Task1Handle);</span><br><span class="line">	xTaskCreate(Task2,<span class="string">&quot;task2&quot;</span>,<span class="number">20</span>,<span class="literal">NULL</span>,<span class="number">1</span>,&amp;Task2Handle);</span><br><span class="line">	xTaskCreate(Task3,<span class="string">&quot;task3&quot;</span>,<span class="number">20</span>,<span class="literal">NULL</span>,<span class="number">1</span>,&amp;Task3Handle);</span><br><span class="line">	EventHandle = xEventGroupCreate();</span><br><span class="line">	<span class="comment">/* Start the scheduler. */</span></span><br><span class="line">	vTaskStartScheduler();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202310052123700.png" alt="运行结果"></p>
+<h2 id="任务通知"><a href="#任务通知" class="headerlink" title="任务通知"></a>任务通知</h2><p>任务通知与队列、互斥量、事件组等等不同，任务通知适用于一对一的任务通信，其中一个任务通知另一个任务以触发特定操作。通知通常用于低延迟的通信和同步需求，例如在生产者-消费者问题中使用。</p>
+<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202310032135089.png" alt="使用队列、事件组"></p>
+<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202310032135976.png" alt="使用任务通知"></p>
+<p>任务通知的优势：</p>
+<ol>
+<li>效率更高：使用任务通知来发送事件、数据给某个任务时，效率更高。比队列、信号量、事件组都<br> 有大的优势。</li>
+<li>更节省内存：使用其他方法时都要先创建对应的结构体，使用任务通知时无需额外创建结构体。</li>
+</ol>
+<p>任务通知的限制：</p>
+<ol>
+<li>不能发送数据给ISR：<br> ISR并没有任务结构体，所以无法使用任务通知的功能给ISR发送数据。但是ISR可以使用任务通知的功能，发数据给任务。</li>
+<li>数据只能给该任务独享<br> 使用队列、信号量、事件组时，数据保存在这些结构体中，其他任务、ISR都可以访问这些数据。使用任务通知时，数据存放入目标任务中，只有它可以访问这些数据。在日常工作中，这个限制影响不大。因为很多场合是从多个数据源把数据发给某个任务，而不是把一个数据源的数据发给多个任务。</li>
+<li>无法缓冲数据<br> 使用队列时，假设队列深度为N，那么它可以保持N个数据。使用任务通知时，任务结构体中只有一个任务通知值，只能保持一个数据。</li>
+<li>无法广播给多个任务<br> 使用事件组可以同时给多个任务发送事件。使用任务通知，只能发个一个任务。</li>
+<li>如果发送受阻，发送方无法进入阻塞状态等待<br> 假设队列已经满了，使用 xQueueSendToBack() 给队列发送数据时，任务可以进入阻塞状态等待<br> 发送完成。使用任务通知时，即使对方无法接收数据，发送方也无法阻塞等待，只能即刻返回错误。</li>
+</ol>
+<h3 id="放入-取出数值"><a href="#放入-取出数值" class="headerlink" title="放入\取出数值"></a>放入\取出数值</h3><p>放入任务通知资源以及的函数一共有两种，一种是简约版本的函数，还有一种高级版本的函数。</p>
+<p>简约版放入函数：<code>BaseType_t xTaskNotifyGive( TaskHandle_t );</code></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xTaskToNotify</td>
+<td>需要通知的任务句柄</td>
+</tr>
+</tbody></table>
+<p>简约版取出函数：<code>uint32_t ulTaskNotifyTake( BaseType_t xClearCountOnExit, TickType_t xTicksToWait);</code></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xClearCountOnExit</td>
+<td>在函数执行完成退出的时候是否清零</td>
+</tr>
+<tr>
+<td>xTicksToWait</td>
+<td>等待任务通知的时间</td>
+</tr>
+</tbody></table>
+<h3 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h3>
+                
+            </div>
+            <hr/>
+
+            
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/FreeRTOS%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">
+                                    <span class="chip bg-color">FreeRTOS快速入门</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2023/09/24/FreeRTOS%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%EF%BC%88%E4%BA%8C%EF%BC%89/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="FreeRTOS快速入门（二）">
+                        
+                        <span class="card-title">FreeRTOS快速入门（二）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-09-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/FreeRTOS%E7%9B%B8%E5%85%B3/" class="post-category">
+                                    FreeRTOS相关
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/FreeRTOS%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">
+                        <span class="chip bg-color">FreeRTOS快速入门</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2023/09/10/FreeRTOS%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="FreeRTOS快速入门（一）">
+                        
+                        <span class="card-title">FreeRTOS快速入门（一）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-09-10
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/FreeRTOS%E7%9B%B8%E5%85%B3/" class="post-category">
+                                    FreeRTOS相关
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/FreeRTOS%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">
+                        <span class="chip bg-color">FreeRTOS快速入门</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2023</span>
+            
+            <a href="/about" target="_blank">泰勒是个裁缝</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+            
+            
+            
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/xiaobini?tab=projects" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1005876468" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1005876468" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
