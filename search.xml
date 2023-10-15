@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>关于解决VSCode加载Platform一直loading插件安装不上的问题</title>
+      <link href="/2023/10/15/%E5%85%B3%E4%BA%8E%E8%A7%A3%E5%86%B3VSCode%E5%8A%A0%E8%BD%BDPlatform%E4%B8%80%E7%9B%B4loading%E6%8F%92%E4%BB%B6%E5%AE%89%E8%A3%85%E4%B8%8D%E4%B8%8A%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+      <url>/2023/10/15/%E5%85%B3%E4%BA%8E%E8%A7%A3%E5%86%B3VSCode%E5%8A%A0%E8%BD%BDPlatform%E4%B8%80%E7%9B%B4loading%E6%8F%92%E4%BB%B6%E5%AE%89%E8%A3%85%E4%B8%8D%E4%B8%8A%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+      
+        <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>最近在学习使用ESP32，看了网上很多的IDE决定使用VSCODE+platform的组合进行ESP32的开发。</p><p>在第一步环境搭建的时候遇到platform一直在loading，重新打开的时候需要下载一个扩展也总是下载失败，如下图：</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202310152226252.png" alt="运行失败"></p><p>所以这两天一直摸索解决。</p><h1 id="网络方法汇总"><a href="#网络方法汇总" class="headerlink" title="网络方法汇总"></a>网络方法汇总</h1><p>在网上找到遇到这个问题的人很少，总结网上主要的解决方法：</p><ol><li><p>科学上网，这个由于platform的服务器在国外所以下载很慢，需要科学上网懂得都懂这里不展开说。</p></li><li><p>是因为本地的python环境原因，删掉就好了。</p><p> 第二种方法我看的是最多人说的方法，但是在我试过之后还是不行，这里说一下怎么删除本地的python环境，<strong>后面会用到</strong>。</p><p> 现在CMD下输入<code>where python</code>就能得到python的安装路径，这里可能会有几个这是正常的，现在很多软件的运行都依赖python。找到路径之后在环境变量中删除python路径即可。</p></li></ol><h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>我是按照上面的方法也已经把python环境都删除了，<strong>在没有恢复的情况下</strong>，我们找到VSCODE下载platform的位置，我的是<code>C:\.platformio</code>也可以看报错信息里面有提示具体位置。（<em><strong>由于解决问题之前没有截取自己错误的信息，所以以上截图来自网络，根据上面的信息，platform的安装位置为“C：\Users\ldm\.platformio”</strong></em>）。</p><p>找到这个目录之后里面有一个python环境，在环境变量中添加这个环境。</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202310152239406.png"></p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202310152246846.png"></p><p>之后再去下载就成功了，有条件的最好是科学网上，这样的速度会更快。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 解决问题 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> ESP32、VSCODE </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>FreeRTOS快速入门（二）</title>
       <link href="/2023/09/24/FreeRTOS%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
       <url>/2023/09/24/FreeRTOS%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
