@@ -4,6 +4,56 @@
   
     
     <entry>
+      <title>记一次使用标准库官方模板疯狂报错解决方案</title>
+      <link href="/2024/03/09/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%BD%BF%E7%94%A8%E6%A0%87%E5%87%86%E5%BA%93%E5%AE%98%E6%96%B9%E6%A8%A1%E6%9D%BF%E7%96%AF%E7%8B%82%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
+      <url>/2024/03/09/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%BD%BF%E7%94%A8%E6%A0%87%E5%87%86%E5%BA%93%E5%AE%98%E6%96%B9%E6%A8%A1%E6%9D%BF%E7%96%AF%E7%8B%82%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
+      
+        <content type="html"><![CDATA[<p>今天接到了一个项目，需要使用STM32F030R86,所以需要重新配置环境，由于用惯了标准库并且项目时间很紧，所以决定使用标准库。在官网下载了STM32标准库。里面除了基本的固件库之外还有一个STM32自己的模板文件。所以不需要自己配置.</p><p>原以为打开直接更改一下IC选择配置一下就好了，等到编译的时候我傻眼了。怎么编译的时候会报200多个错误、200多个警告。于是请教了度娘，得到的答案是说使用keil的时候版本选错了，要选择keil5版本的在编译就不会报错。有人成功了，说明这个方法时可行的，但是我尝试之后无果。</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202403092332561.png" alt="错误信息"></p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202403092334330.png" alt="修改keil版本"></p><p>最后我拿了一个其他人配置好的文件进行对比，两个明明一模一样的配置为什么他能跑通但是我却不行，在一番排查过后我发现，其中一个文件“stm32f0xx.h”文件不是使用的下载下来的库文件。而是直接使用的之前安装的芯片包里面的文件，导致了这个文件的版本更其他文件对不上。</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202403092337086.png" alt="打开文件所在文件夹"></p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202403092338711.png" alt="使用的是芯片包里面的文件"></p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202403092339080.png" alt="应该使用下载的库文件里面的文件"></p><p>对它进行更换之后编译成功。</p><p>&#x3D;&#x3D;ps:也有可能是直接在C\C++那个选项下没有加入stm32f0xx.h的路径，导致系统使用默认的文件。&#x3D;&#x3D;</p><p>找了半天也没有找到更换路径的办法，于是先临时删除那个芯片包文件，编译之后等到stm32f0xx.h使用的是下载的标准库的数据时在将原来的芯片包还原回去即可。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 解决问题 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> STM32、文件配置 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>QT笔记(二)</title>
+      <link href="/2023/11/30/QT%E7%AC%94%E8%AE%B0-%E4%B8%80/"/>
+      <url>/2023/11/30/QT%E7%AC%94%E8%AE%B0-%E4%B8%80/</url>
+      
+        <content type="html"><![CDATA[<h2 id="信号槽基本使用和原理"><a href="#信号槽基本使用和原理" class="headerlink" title="信号槽基本使用和原理"></a>信号槽基本使用和原理</h2><p>信号和槽是QT中最重要的内容，在QT中各个组件的功能都是通过信号和槽函数进行操作的。</p><p>信号和槽就像FreeRTOS中信号量。信号函数只需要声明，不需要知道信号的接受者是谁（就像函数只需要放入信号量不需要知道是谁获取了信号），而槽函数则是只管接收，不需要知道是来自谁的信号（就像函数在获取信号量的时候只需要知道信号量中是否有数据并拿取不需要知道是谁放入的信号）。信号和槽之间的连接是通过对象进行绑定的。</p><h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>信号和槽函数的实现原理比较简单分为以下三步：</p><ol><li>绑定信号和槽函数</li><li>调用信号函数（将信号函数写入队列）</li><li>主线程中获取信号，并且获取信号对应的槽函数。</li></ol><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202311302310183.png" alt="信号和槽的关系"></p><h2 id="信号槽示例"><a href="#信号槽示例" class="headerlink" title="信号槽示例"></a>信号槽示例</h2><p>QT实现信号槽有两种方式：</p><blockquote><ol><li>在UI界面上有一个编辑信号槽，可以对控件编辑一些QT内部实现的信号槽，或者是信号槽界面进行编辑</li><li>手动添加信号槽</li></ol></blockquote><h3 id="UI界面添加信号槽"><a href="#UI界面添加信号槽" class="headerlink" title="UI界面添加信号槽"></a>UI界面添加信号槽</h3><p>在QT creator创建好项目之后，系统会同时创建一个界面文件，里面有一个.UI文件</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202311302320225.png" alt="界面文件"> </p><p>在UI界面的左侧可以看到有很多的控件，我们可以对里面的控件进行拖放。假设我们放入两个按钮，这两个按钮等会的功能一个是关闭窗口还有一个是最小化窗口。</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202311302324101.png"></p><p>为了在后面能够更好的区分按钮的功能，可以在右侧属性栏中修改名称</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202312010001835.png"></p><p>在信号与槽的界面选择发送者、信号、接收者和槽</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202312010020122.png"></p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202312010022449.png"></p><h3 id="手动添加信号槽"><a href="#手动添加信号槽" class="headerlink" title="手动添加信号槽"></a>手动添加信号槽</h3><p>信号函数和槽函数在类中添加，信号函数和槽函数的返回值只能是void，只需要声明不需要实现，但是槽函数需要声明也需要实现。</p><p>添加信号函数以及槽函数之前需要在类中添加Q_OBJECT。如果不添加这个关键字那么系统不会识别类中的信号和槽函数。</p><p>创建信号函数使用的是 signals关键字，创建槽函数使用的函数是slots关键字。连接信号函数与槽函数使用的是connect函数。</p><p>之后只需要创建对象之后调用这个对象的信号，那么线程会自动根据信号函数调用对应的槽函数。槽函数在声明时使用slots必须选择范围（公开、保护、私有），但是信号函数可以不需要。</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MainWindow</span> : <span class="keyword">public</span> QMainWindow <span class="comment">//在类中声明信号和槽</span></span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT  <span class="comment">// 必须要有</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">MainWindow</span>(QWidget *parent = <span class="literal">nullptr</span>);</span><br><span class="line">    ~<span class="built_in">MainWindow</span>();</span><br><span class="line">signals:  <span class="comment">// 声明信号</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">TEST</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">public</span> slots:  <span class="comment">//  声明槽函数</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">test</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Ui::MainWindow *ui;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MainWindow::<span class="built_in">MainWindow</span>(QWidget *parent)</span><br><span class="line">    : <span class="built_in">QMainWindow</span>(parent)</span><br><span class="line">    , <span class="built_in">ui</span>(<span class="keyword">new</span> Ui::MainWindow)</span><br><span class="line">&#123;</span><br><span class="line">    ui-&gt;<span class="built_in">setupUi</span>(<span class="keyword">this</span>);</span><br><span class="line">    <span class="built_in">connect</span>(<span class="keyword">this</span>,<span class="built_in">SIGNAL</span>(TEST),<span class="keyword">this</span>,<span class="built_in">SLOT</span>(<span class="built_in">test</span>()));  <span class="comment">// 在构造函数中连接信号和槽函数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MainWindow::~<span class="built_in">MainWindow</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> ui;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MainWindow::test</span><span class="params">()</span>  <span class="comment">// 类外定义槽函数，也可以在类内中</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;<span class="built_in">showMinimized</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">如果需要调用那么使用<span class="keyword">new</span>创建一个MainWindow对象之后使用这个对象调用信号函数即可。</span><br><span class="line">    </span><br></pre></td></tr></table></figure><h2 id="窗口基类QWidget"><a href="#窗口基类QWidget" class="headerlink" title="窗口基类QWidget"></a>窗口基类QWidget</h2><p>QWidget是所有用户界面的基类，包括鼠标键盘事件等等，同时他也可以在屏幕上绘制自己。</p><h3 id="相对坐标与绝对坐标"><a href="#相对坐标与绝对坐标" class="headerlink" title="相对坐标与绝对坐标"></a>相对坐标与绝对坐标</h3><p>绝对坐标：窗口相对于屏幕位置。屏幕左上角是（0，0），横轴X往左增大，纵轴Y往下增大。</p><p>相对坐标：子类位于父类的位置。</p><h3 id="手动创建QWidget对象"><a href="#手动创建QWidget对象" class="headerlink" title="手动创建QWidget对象"></a>手动创建QWidget对象</h3><p>引入QWidget头文件，使用QWidget w可以创建一个w对象，如果要显示窗口可以使用w.show();如果想隐藏窗口也可以使用w.hide();。</p><p>但是要注意的是QWidget创建对象要在创建QApplication对象后面创建，否则报错。创建QApplication对象的时候要引入Qwidgets&#x2F;QApllication头文件。</p><p>槽函数只能在主线程中调用不能在其他线程中调用如果其他线程要使用槽函数只能通过信号函数</p><h3 id="设置QWidget窗口坐标和尺寸"><a href="#设置QWidget窗口坐标和尺寸" class="headerlink" title="设置QWidget窗口坐标和尺寸"></a>设置QWidget窗口坐标和尺寸</h3>]]></content>
+      
+      
+      <categories>
+          
+          <category> 上位机编程 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> QT、C++、上位机 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>关于解决VSCode加载Platform一直loading插件安装不上的问题</title>
       <link href="/2023/10/15/%E5%85%B3%E4%BA%8E%E8%A7%A3%E5%86%B3VSCode%E5%8A%A0%E8%BD%BDPlatform%E4%B8%80%E7%9B%B4loading%E6%8F%92%E4%BB%B6%E5%AE%89%E8%A3%85%E4%B8%8D%E4%B8%8A%E7%9A%84%E9%97%AE%E9%A2%98/"/>
       <url>/2023/10/15/%E5%85%B3%E4%BA%8E%E8%A7%A3%E5%86%B3VSCode%E5%8A%A0%E8%BD%BDPlatform%E4%B8%80%E7%9B%B4loading%E6%8F%92%E4%BB%B6%E5%AE%89%E8%A3%85%E4%B8%8D%E4%B8%8A%E7%9A%84%E9%97%AE%E9%A2%98/</url>
