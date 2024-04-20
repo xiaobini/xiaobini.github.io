@@ -4,9 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="QT笔记(二), 泰勒是个裁缝">
-    <meta name="description" content="信号槽基本使用和原理信号和槽是QT中最重要的内容，在QT中各个组件的功能都是通过信号和槽函数进行操作的。
-信号和槽就像FreeRTOS中信号量。信号函数只需要声明，不需要知道信号的接受者是谁（就像函数只需要放入信号量不需要知道是谁获取了信号">
+    <meta name="keywords" content="毕业工作半年的总结, 泰勒是个裁缝">
+    <meta name="description" content="工作经历2023年7月1号毕业，到现在的工作也是磕磕绊绊。
+第一份工作是在广州的新代科技，这份工作是校招的时候找的，应聘的是硬件工程师的岗位。那时候想的是大学四年主要都是在学习软件，对硬件的设计和理解都比较有限，并且考研的时候专业课是模电数">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>QT笔记(二) | 泰勒是个裁缝</title>
+    <title>毕业工作半年的总结 | 泰勒是个裁缝</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -294,7 +294,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">QT笔记(二)</h1>
+                    <h1 class="description center-align post-title">毕业工作半年的总结</h1>
                 </div>
             </div>
         </div>
@@ -318,8 +318,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/QT%E3%80%81C-%E3%80%81%E4%B8%8A%E4%BD%8D%E6%9C%BA/">
-                                <span class="chip bg-color">QT、C++、上位机</span>
+                            <a href="/tags/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">
+                                <span class="chip bg-color">年度总结</span>
                             </a>
                         
                     </div>
@@ -330,8 +330,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E4%B8%8A%E4%BD%8D%E6%9C%BA%E7%BC%96%E7%A8%8B/" class="post-category">
-                                上位机编程
+                            <a href="/categories/%E6%80%BB%E7%BB%93/" class="post-category">
+                                总结
                             </a>
                         
                     </div>
@@ -343,28 +343,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-11-30
+                    2024-02-12
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-12-02
+                    2024-04-20
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    2.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    7 分
                 </div>
                 
 
@@ -379,46 +379,23 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="信号槽基本使用和原理"><a href="#信号槽基本使用和原理" class="headerlink" title="信号槽基本使用和原理"></a>信号槽基本使用和原理</h2><p>信号和槽是QT中最重要的内容，在QT中各个组件的功能都是通过信号和槽函数进行操作的。</p>
-<p>信号和槽就像FreeRTOS中信号量。信号函数只需要声明，不需要知道信号的接受者是谁（就像函数只需要放入信号量不需要知道是谁获取了信号），而槽函数则是只管接收，不需要知道是来自谁的信号（就像函数在获取信号量的时候只需要知道信号量中是否有数据并拿取不需要知道是谁放入的信号）。信号和槽之间的连接是通过对象进行绑定的。</p>
-<h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>信号和槽函数的实现原理比较简单分为以下三步：</p>
-<ol>
-<li>绑定信号和槽函数</li>
-<li>调用信号函数（将信号函数写入队列）</li>
-<li>主线程中获取信号，并且获取信号对应的槽函数。</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202311302310183.png" alt="信号和槽的关系"></p>
-<h2 id="信号槽示例"><a href="#信号槽示例" class="headerlink" title="信号槽示例"></a>信号槽示例</h2><p>QT实现信号槽有两种方式：</p>
-<blockquote>
-<ol>
-<li>在UI界面上有一个编辑信号槽，可以对控件编辑一些QT内部实现的信号槽，或者是信号槽界面进行编辑</li>
-<li>手动添加信号槽</li>
-</ol>
-</blockquote>
-<h3 id="UI界面添加信号槽"><a href="#UI界面添加信号槽" class="headerlink" title="UI界面添加信号槽"></a>UI界面添加信号槽</h3><p>在QT creator创建好项目之后，系统会同时创建一个界面文件，里面有一个.UI文件</p>
-<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202311302320225.png" alt="界面文件"> </p>
-<p>在UI界面的左侧可以看到有很多的控件，我们可以对里面的控件进行拖放。假设我们放入两个按钮，这两个按钮等会的功能一个是关闭窗口还有一个是最小化窗口。</p>
-<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202311302324101.png"></p>
-<p>为了在后面能够更好的区分按钮的功能，可以在右侧属性栏中修改名称</p>
-<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202312010001835.png"></p>
-<p>在信号与槽的界面选择发送者、信号、接收者和槽</p>
-<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202312010020122.png"></p>
-<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202312010022449.png"></p>
-<h3 id="手动添加信号槽"><a href="#手动添加信号槽" class="headerlink" title="手动添加信号槽"></a>手动添加信号槽</h3><p>信号函数和槽函数在类中添加，信号函数和槽函数的返回值只能是void，只需要声明不需要实现，但是槽函数需要声明也需要实现。</p>
-<p>添加信号函数以及槽函数之前需要在类中添加Q_OBJECT。如果不添加这个关键字那么系统不会识别类中的信号和槽函数。</p>
-<p>创建信号函数使用的是 signals关键字，创建槽函数使用的函数是slots关键字。连接信号函数与槽函数使用的是connect函数。</p>
-<p>之后只需要创建对象之后调用这个对象的信号，那么线程会自动根据信号函数调用对应的槽函数。槽函数在声明时使用slots必须选择范围（公开、保护、私有），但是信号函数可以不需要。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MainWindow</span> : <span class="keyword">public</span> QMainWindow <span class="comment">//在类中声明信号和槽</span></span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT  <span class="comment">// 必须要有</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">MainWindow</span>(QWidget *parent = <span class="literal">nullptr</span>);</span><br><span class="line">    ~<span class="built_in">MainWindow</span>();</span><br><span class="line">signals:  <span class="comment">// 声明信号</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">TEST</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">public</span> slots:  <span class="comment">//  声明槽函数</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">test</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Ui::MainWindow *ui;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MainWindow::<span class="built_in">MainWindow</span>(QWidget *parent)</span><br><span class="line">    : <span class="built_in">QMainWindow</span>(parent)</span><br><span class="line">    , <span class="built_in">ui</span>(<span class="keyword">new</span> Ui::MainWindow)</span><br><span class="line">&#123;</span><br><span class="line">    ui-&gt;<span class="built_in">setupUi</span>(<span class="keyword">this</span>);</span><br><span class="line">    <span class="built_in">connect</span>(<span class="keyword">this</span>,<span class="built_in">SIGNAL</span>(TEST),<span class="keyword">this</span>,<span class="built_in">SLOT</span>(<span class="built_in">test</span>()));  <span class="comment">// 在构造函数中连接信号和槽函数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MainWindow::~<span class="built_in">MainWindow</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> ui;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MainWindow::test</span><span class="params">()</span>  <span class="comment">// 类外定义槽函数，也可以在类内中</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;<span class="built_in">showMinimized</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">如果需要调用那么使用<span class="keyword">new</span>创建一个MainWindow对象之后使用这个对象调用信号函数即可。</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+                <h2 id="工作经历"><a href="#工作经历" class="headerlink" title="工作经历"></a>工作经历</h2><p>2023年7月1号毕业，到现在的工作也是磕磕绊绊。</p>
+<p>第一份工作是在广州的新代科技，这份工作是校招的时候找的，应聘的是硬件工程师的岗位。那时候想的是大学四年主要都是在学习软件，对硬件的设计和理解都比较有限，并且考研的时候专业课是模电数电所以上手不会说完全没有基础，就想着先学一下硬件，之后想干嵌入式软件的时候在转。那时候的HR跟我说的是去那里主要负责的是硬件测试和维修。我想刚上手肯定不可能就让你设计的，于是就答应了。没想到这个公司就是专门干维修的（笑哭）。里面没有研发岗位，没有传统意义上的硬件工程师。所以在的那一个月让我深陷怀疑。</p>
+<p>在新代练习了一个月的焊接技术，现在的焊接水平不能说很厉害但是一些常见的电子元器件都可以焊接。在那里认识到了将来大哥，他手把手的教我焊接，还是很感谢来哥。但是在这家公司中看不到未来，不想一辈子都在干着维修的活，所以在工作了一个月之后就辞职了。</p>
+<p><strong>要说在第一份工作中获得的教训或者是经验的话，就是找工作的时候要看清公司的性质，不能够自以为是的去猜想。</strong></p>
+<p>辞职后，找了一个月的工作。最后找到了现在的这家公司（暂时保密）。现在的这家公司主要是做程控电源（开关电源的一种分类）以及非标自动化产品。</p>
+<p>现在在这家公司依然还是实习阶段，早上8小时基本都是在产线上进行焊接以及一些装配的活，然后每天晚上在开始学习代码以及公司的产品。转正的一个条件就是要完成公司指定的一个产品。但是实习了6个月，因为每天早上打杂，晚上在公司学习的时间还是比较少的。所以经常需要回家之后自学。</p>
+<p>我的一个项目是完成82V&#x2F;10A&#x2F;100W的产品。刚开始公司之后两台这样的机器，有一台是硬件工程拿给我说是测试好的，我上电之后就炸了（这个公司方面一直判定是我的错，我也不想辩解太多）。还有一台可能是我的原因，不知道这样的产品在写程序的时候需要限制功率，不然产品会炸。所以在写入程序的时候给了比较大的占空比导致产品超出功率。就这样两台机器都需要硬件工程师维修。很可惜的是负责这个产品的硬件工程师是公司的兼职，并不是全职。所以不会花时间来维修产品。也一直跟我说不要去催促。就这样磨了两个月才修好一部给我。后面进行调试的时候，硬件本身的原因导致电流在调节的时候一直跳，后面一个更加资深的硬件工程师看后觉得纹波太大所以叫兼职的硬件工程师改走线。磨来磨去中间做了一些小的项目，也帮客户改了一些比较简单的代码。电源那边硬件一直都有问题所以就一直没弄出来。</p>
+<h2 id="感悟"><a href="#感悟" class="headerlink" title="感悟"></a>感悟</h2><p>工作半年的时间确实有很大的感悟，这些感悟最多的是来自人情世故之间关系的复杂，人与人之间的各种利益关系导致的不同的人说话之间有着很大的不同。</p>
+<h3 id="屁股决定脑袋"><a href="#屁股决定脑袋" class="headerlink" title="屁股决定脑袋"></a>屁股决定脑袋</h3><p>在新代的时候感觉每个人都很纯粹，因为大家都是打工人，没有什么股东和老板之类的存在，虽然有主管什么的但是都很年轻，所以感觉人都比较好。在现在这家公司虽然人数比不上新代的人数多（只有十几个人），但是还是很复杂的。毕竟里面既有老板也有股东（一个大老板，两个技术入股）。虽然在交流的时候大家都是笑着也从来没有什么争吵，但是在跟他们交流的时候会时不时的“画饼”，类似于在这里做几年给你送房送车之类的话。然后另外一个股东则是喜欢说，刚出来都是打螺丝的不要在意什么利益关系。虽然是这样说但是他们给的待遇真的很差，还不如打螺丝的。如果是去跟一些像我这样既不是股东又不是老板的员工说话的时候，倒是比较随和一些，因为彼此之间的利益关系没有那么大。也是这样我才慢慢的体会到<strong>“屁股决定脑袋”</strong>这句话。后来在跟别人的交往之中都会先弄清楚对方的身份，确定好与我之间的利益关系后，接下来他说的每一句话都会思考在他那个立场上说这句话的目的。这样看起来很没有人性，但是也减少了被骗的风险。</p>
+<h3 id="在职场不要暴露自己的意图，不能心急回复"><a href="#在职场不要暴露自己的意图，不能心急回复" class="headerlink" title="在职场不要暴露自己的意图，不能心急回复"></a>在职场不要暴露自己的意图，不能心急回复</h3><p>这个也算是对我来说一个惨痛的教训了。因为是硬件那边的原因导致的项目一直没有完成，所以老板也不能给我转正。就把我叫过去说培养我的话一个月只给2000然后签3年，这3年内不能辞职之类的。当时我一直在想着一个借口回绝，因为这一份合同太不平等，就跟签卖身契一样。但是又不想伤了双方的面子，于是乎就说自己要去考研，这一说老板心里肯定更加不愿意了，虽然当时老板表面上说着往更高走肯定是好的，也在鼓励这种事，所以我也没怎么当回事，以为这件事应该算是糊弄过去了。再后来跟那个兼职硬件工程师的同事吃饭的时候他跟我说的。</p>
+<p>“老板跟我说你想去考研，所以有点不敢培养你，怕培养完之后你走了。”</p>
+<p>那时候我就知道自己错了，那个兼职硬件工程师的同事跟我也是老乡了，一直在鼓励我好好学习。是一个60多岁的老前辈了。他告诉我说，<strong>以后在职场上不要把自己的真实意图告诉别人，不管这个人跟你的关系怎么样，只要你们是同事就不行。同事不该是朋友，除非你离开这家公司或者你们不在同一家公司上班了，那样才能成为朋友。</strong>第一次出社会，没想到这么小的公司也是这么讲究很多职场规则。也是因为这个可能过完年之后又要开始找工作了，在这里学到不少的知识，到时候单开一篇文章总结吧。</p>
+<h3 id="万事谨慎"><a href="#万事谨慎" class="headerlink" title="万事谨慎"></a>万事谨慎</h3><p>这几天一直在看《教父》这部小说，一直很喜欢老教父的一句话，<strong>“我用一辈子学会了谨慎。”</strong></p>
+<p>谨慎这件事主要源于我，在调试电源的时候有时候容易有冒进的思想，有的时候我会直接给一个很高的占空比导致电源损坏之类的。我经常在想如果我能够谨慎一点，从0开始慢慢的往上调是不是就不会坏了。在后来的工作当中，我也是按照0到满占空比的比例慢慢给的，虽然这是以时间为代价的，但是这么做在新手阶段是值得的。</p>
+<p>除了电源以为，自己也因为自己的不谨慎闯下了一些祸，比如说被电烙铁烫伤，没把电就去碰电源导致被电等等，这些不谨慎最后都是自己付出了代价。</p>
+<h3 id="把握机遇"><a href="#把握机遇" class="headerlink" title="把握机遇"></a>把握机遇</h3><p>这里不好展开说说，等事成了在回来补。。。。</p>
 
-
-
-<h2 id="窗口基类QWidget"><a href="#窗口基类QWidget" class="headerlink" title="窗口基类QWidget"></a>窗口基类QWidget</h2><p>QWidget是所有用户界面的基类，包括鼠标键盘事件等等，同时他也可以在屏幕上绘制自己。</p>
-<h3 id="相对坐标与绝对坐标"><a href="#相对坐标与绝对坐标" class="headerlink" title="相对坐标与绝对坐标"></a>相对坐标与绝对坐标</h3><p>绝对坐标：窗口相对于屏幕位置。屏幕左上角是（0，0），横轴X往左增大，纵轴Y往下增大。</p>
-<p>相对坐标：子类位于父类的位置。</p>
-<h3 id="手动创建QWidget对象"><a href="#手动创建QWidget对象" class="headerlink" title="手动创建QWidget对象"></a>手动创建QWidget对象</h3><p>引入QWidget头文件，使用QWidget w可以创建一个w对象，如果要显示窗口可以使用w.show();如果想隐藏窗口也可以使用w.hide();。</p>
-<p>但是要注意的是QWidget创建对象要在创建QApplication对象后面创建，否则报错。创建QApplication对象的时候要引入Qwidgets&#x2F;QApllication头文件。</p>
-<p>槽函数只能在主线程中调用不能在其他线程中调用如果其他线程要使用槽函数只能通过信号函数</p>
-<h3 id="设置QWidget窗口坐标和尺寸"><a href="#设置QWidget窗口坐标和尺寸" class="headerlink" title="设置QWidget窗口坐标和尺寸"></a>设置QWidget窗口坐标和尺寸</h3>
                 
             </div>
             <hr/>
@@ -432,8 +409,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/QT%E3%80%81C-%E3%80%81%E4%B8%8A%E4%BD%8D%E6%9C%BA/">
-                                    <span class="chip bg-color">QT、C++、上位机</span>
+                                <a href="/tags/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">
+                                    <span class="chip bg-color">年度总结</span>
                                 </a>
                             
                         </div>
@@ -480,13 +457,13 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/02/12/%E6%AF%95%E4%B8%9A%E5%B7%A5%E4%BD%9C%E5%8D%8A%E5%B9%B4%E7%9A%84%E6%80%BB%E7%BB%93/">
+                <a href="/2024/03/09/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%BD%BF%E7%94%A8%E6%A0%87%E5%87%86%E5%BA%93%E5%AE%98%E6%96%B9%E6%A8%A1%E6%9D%BF%E7%96%AF%E7%8B%82%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="毕业工作半年的总结">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="记一次使用标准库官方模板疯狂报错解决方案">
                         
-                        <span class="card-title">毕业工作半年的总结</span>
+                        <span class="card-title">记一次使用标准库官方模板疯狂报错解决方案</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -497,57 +474,8 @@
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-02-12
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-03-09
                         </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E6%80%BB%E7%BB%93/" class="post-category">
-                                    总结
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">
-                        <span class="chip bg-color">年度总结</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2023/10/15/%E5%85%B3%E4%BA%8E%E8%A7%A3%E5%86%B3VSCode%E5%8A%A0%E8%BD%BDPlatform%E4%B8%80%E7%9B%B4loading%E6%8F%92%E4%BB%B6%E5%AE%89%E8%A3%85%E4%B8%8D%E4%B8%8A%E7%9A%84%E9%97%AE%E9%A2%98/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="关于解决VSCode加载Platform一直loading插件安装不上的问题">
-                        
-                        <span class="card-title">关于解决VSCode加载Platform一直loading插件安装不上的问题</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-10-15
-                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -563,8 +491,57 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/ESP32%E3%80%81VSCODE/">
-                        <span class="chip bg-color">ESP32、VSCODE</span>
+                    <a href="/tags/STM32%E3%80%81%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE/">
+                        <span class="chip bg-color">STM32、文件配置</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2023/11/30/QT%E7%AC%94%E8%AE%B0-%E4%B8%80/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="QT笔记(二)">
+                        
+                        <span class="card-title">QT笔记(二)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-11-30
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E4%B8%8A%E4%BD%8D%E6%9C%BA%E7%BC%96%E7%A8%8B/" class="post-category">
+                                    上位机编程
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/QT%E3%80%81C-%E3%80%81%E4%B8%8A%E4%BD%8D%E6%9C%BA/">
+                        <span class="chip bg-color">QT、C++、上位机</span>
                     </a>
                     
                 </div>
