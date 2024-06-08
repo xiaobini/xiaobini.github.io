@@ -4,6 +4,56 @@
   
     
     <entry>
+      <title>(炼气期)同步电机(一)</title>
+      <link href="/2024/06/02/(%E7%82%BC%E6%B0%94%E6%9C%9F)%E5%90%8C%E6%AD%A5%E7%94%B5%E6%9C%BA(%E4%B8%80)/"/>
+      <url>/2024/06/02/(%E7%82%BC%E6%B0%94%E6%9C%9F)%E5%90%8C%E6%AD%A5%E7%94%B5%E6%9C%BA(%E4%B8%80)/</url>
+      
+        <content type="html"><![CDATA[<h1 id="同步电机的基础知识"><a href="#同步电机的基础知识" class="headerlink" title="同步电机的基础知识"></a>同步电机的基础知识</h1><p>同步电机指的是转子的旋转速度与定子产生的磁场的旋转速度相同共同转动（同步速）。</p><p>同步速的转速：$n_1 &#x3D; 60f_1&#x2F;p$,其中p指的是极对数，f指的是频率。</p><h2 id="一些基本概念"><a href="#一些基本概念" class="headerlink" title="一些基本概念"></a>一些基本概念</h2><p><strong>电枢反应：<em>定子</em>绕组产生的电枢磁场。</strong></p><p><strong>励磁电流：同步电机转子中通入直流电流所产生的电流。</strong></p><h3 id="电磁基本关系及常用公式"><a href="#电磁基本关系及常用公式" class="headerlink" title="电磁基本关系及常用公式"></a>电磁基本关系及常用公式</h3><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406052210250.png"></p><p><strong>磁感应强度B：用来描述磁场的大小</strong></p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406052232351.jpg"></p><p>P点受到长度为dl磁场的大小为$dB &#x3D; kIdla&#x2F;R^2$,如果说有的长度磁场都叠加在P点时则P点受到的磁场为：$B &#x3D; ∫dB$</p><p><strong>磁通Φ：磁通表示的是在空间内在一定空间面积内磁场经过的磁力线总数</strong></p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406052242638.png"></p><p>空间中磁通计算为：$Φ &#x3D; ∫_sBds$,如果是均匀磁场，B与S垂直的情况下公式可以变成$Φ &#x3D; BS$</p><p><strong>磁感应强度H：表示的是电流产生的磁场大小，表征磁场性质的另外一种基本物理量。</strong></p><p>磁通与磁场强度的比值表示的是磁性材料的导磁能力：</p><p>​$B &#x3D; μH$</p><p>μ指的是磁导率。</p><p><strong>安倍环路定理：描述的是导体电流与导体产生的磁场之间的关系，是电生磁的基本定律。</strong></p><p>​$∫_LHdl &#x3D; Σi_k$</p><p>如果磁力线由N匝电流产生并且磁场强度H处处相等，则公式可以变为</p><p>​$HL &#x3D; Ni &#x3D; F$</p><p>F称之为磁势，$F&#x3D;NI$</p><p><strong>法拉第电磁感应定律：磁生电的基本定律，描述的是感应电势与磁场之间基本关系</strong></p><p>​$e &#x3D; -NdΦ&#x2F;dt &#x3D; -dψ&#x2F;dt$​</p><p>N为匝数，ψ为磁链（表示的是N匝线圈形成的总磁通$ψ&#x3D;NΦ$）。</p><blockquote><p><em>由楞次定律可知，当磁场减小或增大的时候，为了防止磁场的突变会产生感应电动势&#x2F;反电动势。这种变化与磁场的方向相反，所以在产生感应电动势的时候需要加上一个负号</em></p></blockquote><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406052328717.jpg" alt="课本内容"></p><h3 id="磁路中的欧姆定律"><a href="#磁路中的欧姆定律" class="headerlink" title="磁路中的欧姆定律"></a>磁路中的欧姆定律</h3><p><strong>磁路：磁通经过的路径。</strong></p><p>假设磁导率为μ，铁芯的横截面积S均匀，N匝线圈并且每匝线圈通过的电流为i,磁路的平均长度为l，则</p><blockquote><p>[!IMPORTANT]</p><p>$F &#x3D; NI&#x3D;Hl &#x3D; Bl&#x2F;μ &#x3D; Φl&#x2F;μS &#x3D; ΦR_m &#x3D; Φ&#x2F;Λ_m$​</p></blockquote><p>这是一个比较重要的等式，其中$l&#x2F;μS$是一个常数，所以可以当成是磁阻，$Λ_m$是磁导，$Λ_m &#x3D; 1&#x2F;R_m$,反映的是磁路的导磁能力。</p><p>我们可以类比我们学过的电路，在这里，我们可以把磁通Φ看成是电路中的电流，F表示的是电路中的电动势，磁阻$R_m$表示的是电阻。磁感应强度H为电压。</p><p>那么可以得出磁路中的基本定律：</p><blockquote><p><strong>磁路基尔霍夫第一定律：描述的是磁路中的总磁通为0，即∑Φ &#x3D; 0，类比KCL</strong></p><p><strong>磁路基尔霍夫第二定律：描述的是在很截面积内磁感应强度为0，即$∫BdS &#x3D; 0$，类比KVL</strong></p></blockquote><h2 id="同步电机的结构"><a href="#同步电机的结构" class="headerlink" title="同步电机的结构"></a>同步电机的结构</h2><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406042337218.png" alt="电机结构"></p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406042358522.jpg" alt="隐极与凸极分布图"></p><blockquote><p><strong>隐极结构与凸极结构的不同点</strong></p><p>隐极电机与凸极结构的主要不同主要是转子与定子之间的气隙不同，由于气隙的不同就会导致磁阻的不同。进而会影响到磁势和磁通。</p></blockquote><p>隐极电机主要用于汽轮发动机，凸极电机主要运用在水轮发电机。</p><p>在电机的定子中通入AC电流，所产生的磁场称之为电枢磁场，这样子的反应称之为电枢反应。</p><h2 id="同步电机空载情况"><a href="#同步电机空载情况" class="headerlink" title="同步电机空载情况"></a>同步电机空载情况</h2><p>电机空载：电机空载的定义主要指的是电机转子在使用原动机提供转子的同步转速。</p><p>电机空载的时候，对转子励磁的绕组通入直流电，磁势定子绕组开路（$I_a &#x3D; 0$这里指的是一相电流，三相电流都为0）。</p><p>如果直流励磁的电流位$I_f$,则转子励磁磁势为$F_f&#x3D;N_f*I_f$</p><p>在分析同步电机的时候一般ABC三相只选择其中的一项进行分析，其它两项也是同样的道理。在这里我们选择A相绕组进行分析。</p><p>由于在A相定子中产生的感应电势$E_0 &#x3D; -j4.44F_1N_1K_WΦ_0$,并且同步电机的同步转速为$n_1 &#x3D; 60f_1&#x2F;p$（其中$f_1$为感应电势频率，p为电机的极对数）可知，改变转子励磁电流$I_f$会改变磁通的大小，进而会改变感应电势$E_0$的大小。</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406060030073.jpg" alt="磁感应强度与转子电流If的关系"></p><p>由$E_0 &#x3D; -j4.44F_1N_1K_WΦ_0$可知**$E_0$滞后与磁通$Φ_0$90度**。</p><blockquote><p>-j 表示的是滞后90度</p></blockquote><p>在同步电机中，我们通常将转子与定子之间磁通最大时候转子的轴线称之为d轴（直轴），与d轴垂直的轴线称之为q轴（交轴）。</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406060047293.jpg"></p><blockquote><p>转子转到d轴的时候，磁势转子与定子之间的气隙最小，所以磁路中的磁阻最小，根据$F &#x3D; ΦR_m$,磁通$Φ &#x3D; F&#x2F;R_m$</p><p>所以在d轴的时候磁通最大，同理在q轴的时候转子与定子之间的气隙达到最大值，所以磁通最小。</p></blockquote><p>假设电机当前运行状态到达上述电机运行的状态，那么磁势同步电机空载时空向量图可以表示为：</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406060038041.jpg" alt="时空相量"></p><p>根据相量图可以知道，在当前电机的运行状态下，感应电动势$E_0$最大，但是此时磁通最小（应为电势滞后与磁通90度，那么磁通在q轴上的投影为0，所以磁通为最小值。）</p><h2 id="同步电机带载"><a href="#同步电机带载" class="headerlink" title="同步电机带载"></a>同步电机带载</h2><p> 同步电机带载的时候，定子绕组通入电流$I_a$从而在定子上产生电枢磁势$F_a$以及磁场$B_a$，与转子的磁势和磁场以同步速旋转（相对静止）。定子产生的磁势和磁场与转子励磁产生的磁势和磁场在空隙中合成气隙磁势（$F_σ$）和磁场($B_σ$)。</p><p><strong>电枢反应：指的是电枢磁场对主磁场的影响</strong></p><blockquote><p><em>为了方便计算和画图以下的说明和计算都是建立在磁通不饱和的情况下说明，因为只有在不饱和区磁化曲线是直线，满足叠加定理</em></p></blockquote><p>由于在同步电机中，励磁磁势与电枢磁势之间以同步速旋转，所以在气隙中合成的磁势为</p><p>​$F_σ &#x3D; F_a+F_f$</p><p>在同步电机中，气隙磁势是电机产生扭矩的重要参数，而气隙磁势的的产生与电枢磁势和转子磁势之间位置有关，也就是$E_0$与$I_a$​</p><p>的位置有关，一般将$E_0$与$I_a$之间的夹角称之为内功率因数角<strong>ψ</strong>。接下来我们就会讨论$E_0$与$I_a$​不同角度对气隙磁势产生的影响。以下的讨论都是讨论ABC相绕组中的其中一组，以及在电机当前如图暂态的情况（其他情况都同理）。</p><p>​                        <img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406082121367.png" alt="电机暂态"></p><h3 id="I-a-与-E-0-同相位（-ψ-0°）"><a href="#I-a-与-E-0-同相位（-ψ-0°）" class="headerlink" title="$I_a$与$E_0$同相位（$ψ$ &#x3D; 0°）"></a>$I_a$与$E_0$同相位（$ψ$ &#x3D; 0°）</h3><p> 有前面可知电势$E_0$滞后磁通$Φ_0$90°，画出时间与空间的相量图可以表示为：</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406082134212.png" alt="空间相量"></p><p>由于磁势$F$、磁通$Φ$、电流$I$同向位，所以当$I_a$与$E_0$同相位的时候他们之间时空图如图所示</p><p>​                                               <img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406082351981.png" alt="时空图"></p><p>那么可以根据电枢磁势跟转子磁势可以合成气隙磁势$F_σ$,如图所示</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406082355132.png" alt="气隙合成"></p><p>如果将气隙磁势分解到d轴和q轴上，那么是将促进d轴和q轴上的磁势，我们把这种作用称之为<strong>交轴电枢反应</strong>。</p><h3 id="I-a-滞后-E-0-90°-（-ψ-90°，负载呈感性）"><a href="#I-a-滞后-E-0-90°-（-ψ-90°，负载呈感性）" class="headerlink" title="$I_a$滞后$E_0$ $90°$ （$ψ$ &#x3D; 90°，负载呈感性）"></a>$I_a$滞后$E_0$ $90°$ （$ψ$ &#x3D; 90°，负载呈感性）</h3><p>根据上面的原理，我们画出时空相量图如图所示：</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406090016655.png" alt="时空相量"></p><p>他们合成的气隙磁势为：</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406090018811.png" alt="合成气隙磁势"></p><p>可以看到由于电枢磁势与转子磁势方向相反，所以合成的气隙磁势变弱，，这样的电枢反应具有去磁的作用，并且合成的气隙磁势在d轴上，所以称之为<strong>直轴电枢反应</strong></p><h3 id="I-a-超前-E-0-90°-（-ψ-90°，负载呈容性）"><a href="#I-a-超前-E-0-90°-（-ψ-90°，负载呈容性）" class="headerlink" title="$I_a$超前$E_0$ $90°$（$ψ$ &#x3D; -90°，负载呈容性）"></a>$I_a$超前$E_0$ $90°$（$ψ$ &#x3D; -90°，负载呈容性）</h3><p>当$I_a$超前$E_0$90°时，合成气隙的的时空相量图如图所示：</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406090031465.png" alt="时空相量图"></p><p> 从时空图可以看到，当$F_a$与$F_f$同向位的时候，对气隙磁势具有增磁作用，由于这种电枢反应发生在d轴，所以依然为直轴电枢反应。</p><h3 id="I-a-滞后-E-0-任意-ψ-时"><a href="#I-a-滞后-E-0-任意-ψ-时" class="headerlink" title="$I_a$滞后$E_0$任意$ψ$时"></a>$I_a$滞后$E_0$任意$ψ$时</h3><p>当$I_a$滞后$E_0$任意$ψ$时的相量图如图所示：</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406090059295.png"></p><p>如果电枢磁势此时不在d轴或q轴上，就不能直接按照前面的方法直接合成气隙磁势，因为随着内功率因素角的不同，会导致电枢磁势发生变化。在隐极同步电电机而言由于气隙时均匀的，所以磁导不会发生变化。但是对于凸极同步电机而言，气隙是不均匀的，磁导会发生变化，从而气隙磁势也会发生相应的变化，所以需要做另外的分析。</p><p>在这里可以使用分解电枢磁势$F_a$的方式将$F_a$分别映射到q轴和d轴上，分别称为$F_{aq}$与$F_{ad}$。</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406090215259.png" alt="$F_a$映射图"></p><p>有相量图可以得出如下等式</p><p>​     $F_a &#x3D; F_{aq}+F_{ad}$</p><p>其中：</p><p>​   $F_{ad} &#x3D; F_a*sinψ$</p><p>​    $F_{aq} &#x3D; F_a*cosψ$</p><p>上述将$F_a$分解成$F_{ad}$与$F_{aq}$的方法称之为<em><strong>双反应理论</strong></em>，由于我们分解之后得到的气隙磁势就可以按照前面所述的方法进行分析。</p><p>由此我们可以得出：</p><p><strong>当$F_{aq}$与$F_f$合成磁势的时候是交轴电枢反应，当$F_{aq}$与$F_f$合成磁势的时候是直轴去磁电枢反应。</strong>但是是助磁还是去磁还需要具体情况进行 分析，如果$0°&lt;ψ&lt;90°$则为去磁，但是如果$90°&lt;ψ&lt;180°$则为助磁。</p><p>除了上述可以将电枢电势分解在分析以外，同理我们也可以将电枢电流进行分解在分析。</p><p>电枢电流分解的时空相量图如图所示：</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202406090249523.png"></p><p>有电流产生的磁势跟电流同方向，所以分解结果跟磁势分解结果一致。</p><p>此时可以得出结论如下：</p><p>​$I_a &#x3D; I_{aq} + I_{ad}$</p><p>那么</p><p>​$I_{ad} &#x3D; I_asinψ$</p><p>​$I_{aq} &#x3D; I_acosψ$</p><blockquote><p><strong>注意：运用双反应的前提的是磁势与磁通是线性关系，也就是说磁通不饱和的情况。</strong></p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 基础学习、电机学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 电机控制、同步电机、基础知识 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>（练气期）电机控制-基础知识</title>
+      <link href="/2024/05/26/%EF%BC%88%E7%BB%83%E6%B0%94%E6%9C%9F%EF%BC%89%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+      <url>/2024/05/26/%EF%BC%88%E7%BB%83%E6%B0%94%E6%9C%9F%EF%BC%89%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</url>
+      
+        <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一个多月以来看了不少电机学的课和书，可能是自己的理论知识太过薄弱，不管是书还是视频网课很多都是一知半解。也可能是我比较心急，应为我只想学习PMSM电机和BLDC同步电机，所以在看书和课的时候跳过了前面变压器和异步电机的内容。所以在后面同步电机的学习中很吃苦。后面痛定思痛想把基础知识补一补，后来发现了这本书《Electric Motor Control:DC, AC, and BLDC Motors》，这是我第一次读英文书，一致苦于自己的单词储备量和对英文书籍的恐惧。但是下定决心读这本书，借助翻译工具和自己脑海中一点皮毛的单词勉强读完第一章的内容，给我打开了新世界的大门，真是通俗易懂的一本书。所以本篇文章的内容是基于这本书第一章的内容以及一些AI问题的总结。</p><h2 id="电机结构"><a href="#电机结构" class="headerlink" title="电机结构"></a>电机结构</h2><p>在学习电机的时候，私以为了解电机的结构是非常重要的。不仅要看电机的实物，也要看电机的剖面图，这样的对电机的了解才会更加的深入。否则在学习电机的时候分不清定子和转子，以及他们之间的位置关系。所以这本书好的地方就在于有好多的图立体且直观。以下是笔者截取的部分图以及结合网上找到实物图。（仅供展示）</p><p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image/202405280011038.png" alt="image-20240528001114859"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 基础学习、电机学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 电机控制学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>充电柜项目总结</title>
       <link href="/2024/04/17/%E5%85%85%E7%94%B5%E6%9F%9C%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/"/>
       <url>/2024/04/17/%E5%85%85%E7%94%B5%E6%9F%9C%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/</url>
