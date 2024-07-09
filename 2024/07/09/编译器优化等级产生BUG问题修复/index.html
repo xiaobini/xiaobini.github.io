@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="标签: ESP32、VSCODE, 泰勒是个裁缝">
-    <meta name="description" content="用心学习，认真记录">
+    <meta name="keywords" content="记一次编译器优化等级BUG修复, 泰勒是个裁缝">
+    <meta name="description" content="起因是这样的，在做公司项目的时候遇到了一个令人费解的现象。在一个C文件中传创建  一个变量，之后这个变量在其他文件中使用（这是比较常见的用法，之前这样写也完全没有问题）。但是奇怪的是在我创建好这个变量在使用的时候所有的程序就死机动不了了。之">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>标签: ESP32、VSCODE | 泰勒是个裁缝</title>
+    <title>记一次编译器优化等级BUG修复 | 泰勒是个裁缝</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -284,216 +284,372 @@
 
 </header>
 
-    <div class="bg-cover pd-header about-cover">
-    <div class="container">
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">记一次编译器优化等级BUG修复</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
     <div class="row">
-    <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
-        <div class="brand">
-            <div class="title center-align">
-                
-                泰勒是个裁缝
-                
-            </div>
-
-            <div class="description center-align">
-                
-                <span id="subtitle"></span>
-                <script src="/libs/typed/typed.js"></script>
-                <script>
-                    var typed = new Typed("#subtitle", {
-                        strings: [ 
-                            
-                                "只是向上走，不必听自暴自弃者流的话",
-                            
-                                "立于皓月之边，不弱星光之势",
-                            
-                        ],
-                        startDelay: 300,
-                        typeSpeed: 100,
-                        loop: true,
-                        backSpeed: 50,
-                        showCursor: true
-                    });
-                </script>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<script>
-    // 每天切换 banner 图.  Switch banner image every day.
-    var bannerUrl = "/medias/banner/" + new Date().getDay() + '.jpg';
-    $('.bg-cover').css('background-image', 'url(' + bannerUrl + ')');
-</script>
-<script>
-    
-      var bannerUrl = "/medias/featureimages/" + Math.floor(Math.random() * 24) + '.jpg';
-    
-    $('.bg-cover.about-cover').css('background-image', 'url(' + bannerUrl + ')');
-
-</script>
-
-
-    </div>
-</div>
-
-<main class="content">
-
-    
-
-<div id="tags" class="container chip-container">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
     <div class="card">
-        <div class="card-content">
-            <div class="tag-title center-align">
-                <i class="fas fa-tags"></i>&nbsp;&nbsp;文章标签
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E6%AD%BB%E6%9C%BA%E9%97%AE%E9%A2%98/">
+                                <span class="chip bg-color">死机问题</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98/" class="post-category">
+                                解决问题
+                            </a>
+                        
+                    </div>
+                    
+                </div>
             </div>
-            <div class="tag-chips">
+
+            <div class="post-info">
                 
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-07-09
+                </div>
                 
-                <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" title="博客搭建: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="博客搭建" style="background-color: #F9EBEA;">博客搭建
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
+
                 
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2024-07-09
+                </div>
                 
-                <a href="/tags/FreeRTOS%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="FreeRTOS快速入门: 2">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="FreeRTOS快速入门" style="background-color: #F5EEF8;">FreeRTOS快速入门
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
+
                 
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    484
+                </div>
                 
-                <a href="/tags/ESP32%E3%80%81VSCODE/" title="ESP32、VSCODE: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-active "
-                            data-tagname="ESP32、VSCODE" style="background-color: #D5F5E3;">ESP32、VSCODE
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
+
                 
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    1 分
+                </div>
                 
-                <a href="/tags/QT%E3%80%81C-%E3%80%81%E4%B8%8A%E4%BD%8D%E6%9C%BA/" title="QT、C++、上位机: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="QT、C++、上位机" style="background-color: #E8F8F5;">QT、C++、上位机
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/STM32%E3%80%81%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE/" title="STM32、文件配置: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="STM32、文件配置" style="background-color: #FEF9E7;">STM32、文件配置
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E5%B7%A5%E4%BD%9C%E9%A1%B9%E7%9B%AE/" title="工作项目: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="工作项目" style="background-color: #F8F9F9;">工作项目
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" title="年度总结: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="年度总结" style="background-color: #82E0AA;">年度总结
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6%E3%80%81%E5%90%8C%E6%AD%A5%E7%94%B5%E6%9C%BA%E3%80%81%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" title="电机控制、同步电机、基础知识: 3">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="电机控制、同步电机、基础知识" style="background-color: #D7BDE2;">电机控制、同步电机、基础知识
-                        <span class="tag-length">3</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6%E5%AD%A6%E4%B9%A0/" title="电机控制学习: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="电机控制学习" style="background-color: #A3E4D7;">电机控制学习
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E7%94%B5%E6%9C%BA%E3%80%81%E6%B0%B8%E7%A3%81%E5%90%8C%E6%AD%A5%E7%94%B5%E6%9C%BA%E3%80%81%E7%A3%81%E5%9C%BA%E8%BD%AC%E5%AD%90%E5%AE%9A%E5%90%91/" title="电机、永磁同步电机、磁场转子定向: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="电机、永磁同步电机、磁场转子定向" style="background-color: #85C1E9;">电机、永磁同步电机、磁场转子定向
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E6%AD%BB%E6%9C%BA%E9%97%AE%E9%A2%98/" title="死机问题: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="死机问题" style="background-color: #F8C471;">死机问题
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
+
                 
             </div>
         </div>
-    </div>
-</div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>起因是这样的，在做公司项目的时候遇到了一个令人费解的现象。在一个C文件中传创建  一个变量，之后这个变量在其他文件中使用（这是比较常见的用法，之前这样写也完全没有问题）。但是奇怪的是在我创建好这个变量在使用的时候所有的程序就死机动不了了。之后我注释掉使用这个变量的地方，在重新下载之后又好了。用仿真探查以下这个变量的值，发现在初始化的时候并不是我赋值给他的初值0。而是一个不知道在哪里来的值。所以很费解，明明初始化的时候就已经赋值了，为了防止在后面的程序运行当中被串改还特地的把后面关于这个变量的值全部注释掉。但是依然不奏效。于是乎就怀疑到编译器帮我把这个变量给优化掉了，所以在创建这个变量的前面加上<code>volatile</code>这个关键字。之后再跑仿真的时候查看这个变量就恢复了，原本的死机的程序也可以跑起来了。</p>
+<p>我以为只是这个变量的问题，后来再这个文件中创建的函数以及变量都存在大大小小被优化的问题，于是降低系统的优化等级，发现当前的优化等级已经是最低了，后来选择了默认不优化，重新编译，再烧录解决问题。哪怕改用更高的优化等级也是OK的，就最低优化等级不能够使用，很纳闷。</p>
+<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202407091812991.png" alt="image-20240709181230908"></p>
+<p>后来在硬汉哥的论坛看到关于优化等级的文章，觉得很是不错，原文链接：<a target="_blank" rel="noopener" href="https://www.armbbs.cn/forum.php?mod=viewthread&tid=97702">https://www.armbbs.cn/forum.php?mod=viewthread&amp;tid=97702</a><br>贴图如下：</p>
+<p><img src="https://raw.githubusercontent.com/xiaobini/image/main/image%5C202407091812068.png"></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E6%AD%BB%E6%9C%BA%E9%97%AE%E9%A2%98/">
+                                    <span class="chip bg-color">死机问题</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
 
     
 
-    <article id="articles" class="container articles">
-        <div class="row tags-posts">
-            
-            
-            <div class="article tag-post col s12 m6 l4" data-tags="ESP32、VSCODE" data-aos="fade-up">
-                <div class="card">
-                    <a href="/2023/10/15/%E5%85%B3%E4%BA%8E%E8%A7%A3%E5%86%B3VSCode%E5%8A%A0%E8%BD%BDPlatform%E4%B8%80%E7%9B%B4loading%E6%8F%92%E4%BB%B6%E5%AE%89%E8%A3%85%E4%B8%8D%E4%B8%8A%E7%9A%84%E9%97%AE%E9%A2%98/">
-                        <div class="card-image tag-image">
-                            
-                            
-                            <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="关于解决VSCode加载Platform一直loading插件安装不上的问题">
-                            
-                            <span class="card-title">关于解决VSCode加载Platform一直loading插件安装不上的问题</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-10-15
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98/" class="post-category">
-                                解决问题
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
+    
+
+</div>
+
                 </div>
             </div>
             
         </div>
-    </article>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2024/07/09/%E7%BC%96%E8%AF%91%E5%99%A8%E4%BC%98%E5%8C%96%E7%AD%89%E7%BA%A7%E4%BA%A7%E7%94%9FBUG%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="记一次编译器优化等级BUG修复">
+                        
+                        <span class="card-title">记一次编译器优化等级BUG修复</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-07-09
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98/" class="post-category">
+                                    解决问题
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%AD%BB%E6%9C%BA%E9%97%AE%E9%A2%98/">
+                        <span class="chip bg-color">死机问题</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/07/04/%E6%B0%B8%E7%A3%81%E5%90%8C%E6%AD%A5%E7%94%B5%E6%9C%BA%E7%AC%AC%E4%B8%80%E8%AF%BE/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="永磁同步电机第一课">
+                        
+                        <span class="card-title">永磁同步电机第一课</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-07-04
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/" class="post-category">
+                                    电机控制
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%94%B5%E6%9C%BA%E3%80%81%E6%B0%B8%E7%A3%81%E5%90%8C%E6%AD%A5%E7%94%B5%E6%9C%BA%E3%80%81%E7%A3%81%E5%9C%BA%E8%BD%AC%E5%AD%90%E5%AE%9A%E5%90%91/">
+                        <span class="chip bg-color">电机、永磁同步电机、磁场转子定向</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
 </main>
 
 
